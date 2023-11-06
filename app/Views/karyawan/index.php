@@ -9,7 +9,7 @@
                 <!--begin::Page Heading-->
                 <div class="d-flex align-items-baseline flex-wrap mr-5">
                     <!--begin::Page Title-->
-                    <h5 class="text-dark font-weight-bold my-1 mr-5">Bayer</h5>
+                    <h5 class="text-dark font-weight-bold my-1 mr-5">Karyawan</h5>
                     <!--end::Page Title-->
                     <!--begin::Breadcrumb-->
                     <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
@@ -39,15 +39,14 @@
             <div class="card card-custom">
                 <div class="card-header flex-wrap bg-light-warning">
                     <div class="card-title">
-                        <h3 class="card-label">Bayer
-                        </h3>
+                        <!-- icon kiri -->
                     </div>
                     <div class="card-toolbar">
                         <!--begin::Dropdown-->
                         <!-- $this->include('layout/custom/_export');  -->
                         <!--end::Dropdown-->
                         <!--begin::Button-->
-                        <a href="<?php echo ('bayer/tambah') ?>" class="btn btn-primary font-weight-bolder">
+                        <a href="<?php echo ('karyawan/tambah') ?>" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -58,29 +57,34 @@
                                     </g>
                                 </svg>
                                 <!--end::Svg Icon-->
-                            </span>Tambah Bayer
+                            </span>Tambah Karyawan
                         </a>
                         <!--end::Button-->
                     </div>
                 </div>
                 <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 50vh;padding:10px 20px">
                     <!--begin: Datatable-->
-                    <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info">
-                        <thead>
+                    <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 1110px;">
+                        <thead class="text-center">
                             <tr>
-                                <th class="text-center">Bayer</th>
-                                <th class="text-center">Aksi</th>
+                                <th>Karyawan</th>
+                                <th>Email</th>
+                                <th>Hp</th>
+                                <th>Jabatan</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+
                         </tbody>
                     </table>
+
                 </div>
+
             </div>
         </div>
     </div>
 </div>
-
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
 <script type="text/javascript">
@@ -99,7 +103,7 @@
             },
             "serverSide": true,
             "ajax": {
-                "url": "<?php echo site_url('bayer/datatablesource') ?>",
+                "url": "<?php echo site_url('karyawan/datatablesource') ?>",
                 "type": "POST",
             },
             "columnDefs": [{
@@ -112,8 +116,21 @@
                     "orderable": false,
                     "className": 'text-center'
                 },
-
-
+                {
+                    "targets": [2],
+                    "orderable": false,
+                    "className": 'text-center'
+                },
+                {
+                    "targets": [3],
+                    "orderable": false,
+                    "className": 'text-center'
+                },
+                {
+                    "targets": [4],
+                    "orderable": false,
+                    "className": 'text-center'
+                },
             ],
             "language": {
                 "infoFiltered": ""

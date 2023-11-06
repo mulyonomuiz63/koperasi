@@ -83,22 +83,25 @@ class MenuRole extends BaseController
             $data = array(
                 'idrole'     => $idrole,
                 'idmenu'     => $idmenu,
-                'lihat'     => $lihat == null ? '0' : $lihat,
+                'lihat'      => $lihat == null ? '0' : $lihat,
                 'tambah'     => $tambah == null ? '0' : $tambah,
-                'ubah'     => $ubah == null ? '0' : $ubah,
-                'hapus'     => $hapus == null ? '0' : $hapus,
+                'ubah'       => $ubah == null ? '0' : $ubah,
+                'hapus'      => $hapus == null ? '0' : $hapus,
             );
-            $simpan = $this->m_menurole->simpan($data);
+            if (empty($this->m_menurole->cek_menu_role($idmenu, $idrole))) {
+                $simpan = $this->m_menurole->simpan($data);
+            } else {
+                $simpan = false;
+            }
         } else { // ini kondisi jika edit data
-
 
             $data = array(
                 'idrole'     => $idrole,
                 'idmenu'     => $idmenu,
-                'lihat'     => $lihat == null ? '0' : $lihat,
+                'lihat'      => $lihat == null ? '0' : $lihat,
                 'tambah'     => $tambah == null ? '0' : $tambah,
-                'ubah'     => $ubah == null ? '0' : $ubah,
-                'hapus'     => $hapus == null ? '0' : $hapus,
+                'ubah'       => $ubah == null ? '0' : $ubah,
+                'hapus'      => $hapus == null ? '0' : $hapus,
             );
 
             $simpan = $this->m_menurole->updateWhere($data, $idmenurole);
@@ -106,18 +109,18 @@ class MenuRole extends BaseController
 
         if ($simpan) {
             $pesan = '<div>
-						<div class="alert alert-success alert-dismissable">
-			                <strong>Berhasil.</strong> Data telah disimpan
-					    </div>
-					</div>';
+        				<div class="alert alert-success alert-dismissable">
+        	                <strong>Berhasil.</strong> Data telah disimpan
+        			    </div>
+        			</div>';
         } else {
             $eror = $this->db->error();
             $pesan = '<div>
-						<div class="alert alert-danger alert-dismissable">
-			                <strong>Gagal!</strong> Data gagal disimpan! <br>
-			                Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
-					    </div>
-					</div>';
+        				<div class="alert alert-danger alert-dismissable">
+        	                <strong>Gagal!</strong> Data gagal disimpan! <br>
+        	                Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
+        			    </div>
+        			</div>';
         }
 
         $this->session->setFlashdata('pesan', $pesan);

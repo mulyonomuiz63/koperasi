@@ -6,6 +6,7 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <title>Koperasi multi pihak surya makmur agro teknologi</title>
     <meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -29,6 +30,12 @@
     <link href="<?= base_url('assets/css/themes/layout/aside/dark.css') ?>" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
     <link rel="shortcut icon" href="<?= base_url('assets/media/logos/favicon.png') ?>" />
+
+    <style>
+        .help-block {
+            color: red;
+        }
+    </style>
 </head>
 <!--end::Head-->
 
@@ -165,6 +172,7 @@
     <!--begin::Page Vendors(used by this page)-->
     <script src="<?= base_url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.js') ?>"></script>
+    <script src="<?php echo (base_url('assets/bootstrap-validator/js/bootstrapValidator.js')) ?>"></script>
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
     <script src="<?= base_url('assets/js/pages/widgets.js') ?>"></script>

@@ -57,16 +57,16 @@
                         </div>
                         <div class="radio-inline" role="group">
                             <label class="radio radio-square">
-                                <input type="radio" checked="checked" name="lihat" id="lihat" value="1" <?php if ($menurole->lihat == '1') { ?> checked <?php } ?> autocomplete="off">
+                                <input type="checkbox" checked="checked" name="lihat" id="lihat" value="1" <?php if ($menurole->lihat == '1') { ?> checked <?php } ?> autocomplete="off">
                                 <span></span>Lihat</label>
                             <label class="radio radio-square">
-                                <input type="radio" name="tambah" id="tambah" value="1" <?php if ($menurole->tambah == '1') { ?> checked <?php } ?> autocomplete="off">
+                                <input type="checkbox" name="tambah" id="tambah" value="1" <?php if ($menurole->tambah == '1') { ?> checked <?php } ?> autocomplete="off">
                                 <span></span>Tambah</label>
                             <label class="radio radio-square">
-                                <input type="radio" name="ubah" id="ubah" value="1" <?php if ($menurole->ubah == '1') { ?> checked <?php } ?> autocomplete="off">
+                                <input type="checkbox" name="ubah" id="ubah" value="1" <?php if ($menurole->ubah == '1') { ?> checked <?php } ?> autocomplete="off">
                                 <span></span>Ubah</label>
                             <label class="radio radio-square">
-                                <input type="radio" name="hapus" id="hapus" value="1" <?php if ($menurole->hapus == '1') { ?> checked <?php } ?> autocomplete="off">
+                                <input type="checkbox" name="hapus" id="hapus" value="1" <?php if ($menurole->hapus == '1') { ?> checked <?php } ?> autocomplete="off">
                                 <span></span>Hapus</label>
                         </div>
                     </div>

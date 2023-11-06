@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\M_bayer;
+use App\Models\M_karyawan;
 use App\Models\M_komoditi;
 use App\Models\M_login;
 use App\Models\M_menu;
@@ -31,6 +32,11 @@ use Psr\Log\LoggerInterface;
  */
 abstract class BaseController extends Controller
 {
+
+
+
+
+
     /**
      * Instance of the main Request object.
      *
@@ -62,6 +68,7 @@ abstract class BaseController extends Controller
     protected $m_role;
     protected $m_user;
     protected $m_login;
+    protected $m_karyawan;
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -102,5 +109,6 @@ abstract class BaseController extends Controller
         $this->m_role       = new M_role();
         $this->m_user       = new M_user();
         $this->m_login       = new M_login();
+        $this->m_karyawan       = new M_karyawan();
     }
 }

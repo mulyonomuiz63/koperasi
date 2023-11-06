@@ -30,90 +30,102 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('login', 'Login::index');
-$routes->post('login/cek_login', 'Login::cek_login');
+$routes->get('login', 'Login::index', ['filter' => 'guestFilter']);
+$routes->get('keluar', 'Login::keluar', ['filter' => 'authFilter']);
+$routes->post('login/cek_login', 'Login::cek_login', ['filter' => 'guestFilter']);
 
 
 
-$routes->get('/', 'Home::index', ['as' => 'home']);
+$routes->get('/', 'Home::index', ['filter' => 'authFilter']);
 
 // untuk komoditi
-$routes->get('komoditi', 'Komoditi::index');
-$routes->post('komoditi/datatablesource', 'Komoditi::datatablesource');
-$routes->get('komoditi/tambah', 'Komoditi::tambah');
-$routes->post('komoditi/simpan', 'Komoditi::simpan');
-$routes->get('komoditi/edit/(:any)', 'Komoditi::edit/$1');
-$routes->get('komoditi/delete/(:any)', 'Komoditi::delete/$1');
+$routes->get('komoditi', 'Komoditi::index', ['filter' => 'authFilter']);
+$routes->post('komoditi/datatablesource', 'Komoditi::datatablesource', ['filter' => 'authFilter']);
+$routes->get('komoditi/tambah', 'Komoditi::tambah', ['filter' => 'authFilter']);
+$routes->post('komoditi/simpan', 'Komoditi::simpan', ['filter' => 'authFilter']);
+$routes->get('komoditi/edit/(:any)', 'Komoditi::edit/$1', ['filter' => 'authFilter']);
+$routes->get('komoditi/delete/(:any)', 'Komoditi::delete/$1', ['filter' => 'authFilter']);
 
 
 
 // untuk pengepul
-$routes->get('pengepul', 'Pengepul::index');
-$routes->post('pengepul/datatablesource', 'Pengepul::datatablesource');
-$routes->get('pengepul/add_ajax_kota/(:any)', 'Pengepul::add_ajax_kota/$1');
-$routes->get('pengepul/add_ajax_kecamatan/(:any)', 'Pengepul::add_ajax_kecamatan/$1');
-$routes->get('pengepul/add_ajax_kelurahan/(:any)', 'Pengepul::add_ajax_kelurahan/$1');
-$routes->get('pengepul/tambah', 'Pengepul::tambah');
-$routes->post('pengepul/simpan', 'Pengepul::simpan');
-$routes->get('pengepul/edit/(:any)', 'Pengepul::edit/$1');
-$routes->get('pengepul/delete/(:any)', 'Pengepul::delete/$1');
+$routes->get('pengepul', 'Pengepul::index', ['filter' => 'authFilter']);
+$routes->post('pengepul/datatablesource', 'Pengepul::datatablesource', ['filter' => 'authFilter']);
+$routes->get('pengepul/add_ajax_kota/(:any)', 'Pengepul::add_ajax_kota/$1', ['filter' => 'authFilter']);
+$routes->get('pengepul/add_ajax_kecamatan/(:any)', 'Pengepul::add_ajax_kecamatan/$1', ['filter' => 'authFilter']);
+$routes->get('pengepul/add_ajax_kelurahan/(:any)', 'Pengepul::add_ajax_kelurahan/$1', ['filter' => 'authFilter']);
+$routes->get('pengepul/tambah', 'Pengepul::tambah', ['filter' => 'authFilter']);
+$routes->post('pengepul/simpan', 'Pengepul::simpan', ['filter' => 'authFilter']);
+$routes->get('pengepul/edit/(:any)', 'Pengepul::edit/$1', ['filter' => 'authFilter']);
+$routes->get('pengepul/delete/(:any)', 'Pengepul::delete/$1', ['filter' => 'authFilter']);
 
 // untuk pengirim
-$routes->get('pengirim', 'Pengirim::index');
-$routes->post('pengirim/datatablesource', 'Pengirim::datatablesource');
-$routes->get('pengirim/delete/(:any)', 'Pengirim::delete/$1');
-$routes->get('pengirim/edit/(:any)', 'Pengirim::edit/$1');
+$routes->get('pengirim', 'Pengirim::index', ['filter' => 'authFilter']);
+$routes->post('pengirim/datatablesource', 'Pengirim::datatablesource', ['filter' => 'authFilter']);
+$routes->get('pengirim/delete/(:any)', 'Pengirim::delete/$1', ['filter' => 'authFilter']);
+$routes->get('pengirim/edit/(:any)', 'Pengirim::edit/$1', ['filter' => 'authFilter']);
 
 // untuk produk
-$routes->get('produk', 'Produk::index');
-$routes->post('produk/datatablesource', 'Produk::datatablesource');
-$routes->get('produk/tambah', 'Produk::tambah');
-$routes->post('produk/simpan', 'produk::simpan');
-$routes->get('produk/delete/(:any)', 'Produk::delete/$1');
-$routes->get('produk/edit/(:any)', 'Produk::edit/$1');
+$routes->get('produk', 'Produk::index', ['filter' => 'authFilter']);
+$routes->post('produk/datatablesource', 'Produk::datatablesource', ['filter' => 'authFilter']);
+$routes->get('produk/tambah', 'Produk::tambah', ['filter' => 'authFilter']);
+$routes->post('produk/simpan', 'produk::simpan', ['filter' => 'authFilter']);
+$routes->get('produk/delete/(:any)', 'Produk::delete/$1', ['filter' => 'authFilter']);
+$routes->get('produk/edit/(:any)', 'Produk::edit/$1', ['filter' => 'authFilter']);
 
 // untuk bayer
-$routes->get('bayer', 'Bayer::index');
-$routes->post('bayer/datatablesource', 'Bayer::datatablesource');
-$routes->get('bayer/tambah', 'Bayer::tambah');
-$routes->post('bayer/simpan', 'Bayer::simpan');
-$routes->get('bayer/edit/(:any)', 'Bayer::edit/$1');
-$routes->get('bayer/delete/(:any)', 'Bayer::delete/$1');
+$routes->get('bayer', 'Bayer::index', ['filter' => 'authFilter']);
+$routes->post('bayer/datatablesource', 'Bayer::datatablesource', ['filter' => 'authFilter']);
+$routes->get('bayer/tambah', 'Bayer::tambah', ['filter' => 'authFilter']);
+$routes->post('bayer/simpan', 'Bayer::simpan', ['filter' => 'authFilter']);
+$routes->get('bayer/edit/(:any)', 'Bayer::edit/$1', ['filter' => 'authFilter']);
+$routes->get('bayer/delete/(:any)', 'Bayer::delete/$1', ['filter' => 'authFilter']);
 
 // untuk menu-role
-$routes->get('menu-role', 'MenuRole::index');
-$routes->post('menu-role/datatablesource', 'MenuRole::datatablesource');
-$routes->get('menu-role/tambah', 'MenuRole::tambah');
-$routes->post('menu-role/simpan', 'MenuRole::simpan');
-$routes->get('menu-role/edit/(:any)', 'MenuRole::edit/$1');
-$routes->get('menu-role/delete/(:any)', 'MenuRole::delete/$1');
+$routes->get('menu-role', 'MenuRole::index', ['filter' => 'authFilter']);
+$routes->post('menu-role/datatablesource', 'MenuRole::datatablesource', ['filter' => 'authFilter']);
+$routes->get('menu-role/tambah', 'MenuRole::tambah', ['filter' => 'authFilter']);
+$routes->post('menu-role/simpan', 'MenuRole::simpan', ['filter' => 'authFilter']);
+$routes->get('menu-role/edit/(:any)', 'MenuRole::edit/$1', ['filter' => 'authFilter']);
+$routes->get('menu-role/delete/(:any)', 'MenuRole::delete/$1', ['filter' => 'authFilter']);
 
 // untuk role
-$routes->get('role', 'Role::index');
-$routes->post('role/datatablesource', 'Role::datatablesource');
-$routes->get('role/tambah', 'Role::tambah');
-$routes->post('role/simpan', 'Role::simpan');
-$routes->get('role/edit/(:any)', 'Role::edit/$1');
-$routes->get('role/delete/(:any)', 'Role::delete/$1');
+$routes->get('role', 'Role::index', ['filter' => 'authFilter']);
+$routes->post('role/datatablesource', 'Role::datatablesource', ['filter' => 'authFilter']);
+$routes->get('role/tambah', 'Role::tambah', ['filter' => 'authFilter']);
+$routes->post('role/simpan', 'Role::simpan', ['filter' => 'authFilter']);
+$routes->get('role/edit/(:any)', 'Role::edit/$1', ['filter' => 'authFilter']);
+$routes->get('role/delete/(:any)', 'Role::delete/$1', ['filter' => 'authFilter']);
 
 // untuk menu
-$routes->get('menu', 'Menu::index');
-$routes->post('menu/datatablesource', 'Menu::datatablesource');
-$routes->get('menu/tambah', 'Menu::tambah');
-$routes->post('menu/simpan', 'Menu::simpan');
-$routes->get('menu/edit/(:any)', 'Menu::edit/$1');
-$routes->get('menu/delete/(:any)', 'Menu::delete/$1');
+$routes->get('menu', 'Menu::index', ['filter' => 'authFilter']);
+$routes->post('menu/datatablesource', 'Menu::datatablesource', ['filter' => 'authFilter']);
+$routes->get('menu/tambah', 'Menu::tambah', ['filter' => 'authFilter']);
+$routes->post('menu/simpan', 'Menu::simpan', ['filter' => 'authFilter']);
+$routes->get('menu/edit/(:any)', 'Menu::edit/$1', ['filter' => 'authFilter']);
+$routes->get('menu/delete/(:any)', 'Menu::delete/$1', ['filter' => 'authFilter']);
 
 // untuk user
-$routes->get('user', 'User::index', ['as' => 'user.index']);
-$routes->post('user/datatablesource', 'User::datatablesource');
-$routes->post('user/cek_status_email', 'User::cek_status_email');
-$routes->post('user/cek_status_hp', 'User::cek_status_hp');
-$routes->get('user/tambah', 'User::tambah', ['as' => 'user.tambah']);
-$routes->post('user/simpan', 'User::simpan');
-$routes->get('user/edit/(:any)', 'User::edit/$1', ['as' => 'user.edit']);
-$routes->get('user/delete/(:any)', 'User::delete/$1');
+$routes->get('user', 'User::index',  ['filter' => 'authFilter']);
+$routes->post('user/datatablesource', 'User::datatablesource', ['filter' => 'authFilter']);
+$routes->post('user/cek_status_email', 'User::cek_status_email', ['filter' => 'authFilter']);
+$routes->post('user/cek_status_hp', 'User::cek_status_hp', ['filter' => 'authFilter']);
+$routes->get('user/tambah', 'User::tambah', ['filter' => 'authFilter']);
+$routes->post('user/simpan', 'User::simpan', ['filter' => 'authFilter']);
+$routes->get('user/edit/(:any)', 'User::edit/$1',  ['filter' => 'authFilter']);
+$routes->get('user/delete/(:any)', 'User::delete/$1', ['filter' => 'authFilter']);
 
+
+// untuk karyawan
+$routes->get('karyawan', 'Karyawan::index', ['filter' => 'authFilter']);
+$routes->post('karyawan/datatablesource', 'Karyawan::datatablesource', ['filter' => 'authFilter']);
+$routes->get('karyawan/add_ajax_kota/(:any)', 'Karyawan::add_ajax_kota/$1', ['filter' => 'authFilter']);
+$routes->get('karyawan/add_ajax_kecamatan/(:any)', 'Karyawan::add_ajax_kecamatan/$1', ['filter' => 'authFilter']);
+$routes->get('karyawan/add_ajax_kelurahan/(:any)', 'Karyawan::add_ajax_kelurahan/$1', ['filter' => 'authFilter']);
+$routes->get('karyawan/tambah', 'Karyawan::tambah', ['filter' => 'authFilter']);
+$routes->post('karyawan/simpan', 'Karyawan::simpan', ['filter' => 'authFilter']);
+$routes->get('karyawan/edit/(:any)', 'Karyawan::edit/$1', ['filter' => 'authFilter']);
+$routes->get('karyawan/delete/(:any)', 'Karyawan::delete/$1', ['filter' => 'authFilter']);
 
 /*
  * --------------------------------------------------------------------

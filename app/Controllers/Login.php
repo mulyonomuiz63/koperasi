@@ -4,10 +4,14 @@ namespace App\Controllers;
 
 class Login extends BaseController
 {
+
+
     public function index(): string
     {
         return view('login/index');
     }
+
+
 
     public function cek_login()
     {
@@ -23,8 +27,17 @@ class Login extends BaseController
                 return redirect()->to('login');
             } else {
                 $kirim = $this->m_login->cek_login($email, md5($password));
+                $result = $kirim->getRow();
                 if ($kirim->getNumRows() > 0) {
+                    $data = array(
+                        'iduser' => $result->iduser,
+                        'nama' => $result->nama,
+                        'email' => $result->email,
+                        'idrole' => $result->idrole,
+                        'isLoggedIn' => TRUE
+                    );
 
+                    $this->session->set($data);
                     return redirect()->to('/');
                 } else {
                     $pesan = '<div class="alert alert-danger">email atau password anda salah </div>';
@@ -37,5 +50,11 @@ class Login extends BaseController
             $this->session->setFlashdata('pesan', $pesan);
             return redirect()->to('login');
         }
+    }
+
+    public function keluar()
+    {
+        $this->session->destroy();
+        return redirect()->to('login/');
     }
 }

@@ -4,7 +4,17 @@ namespace App\Controllers;
 
 class Bayer extends BaseController
 {
-    public function index(): string
+    // public function __construct()
+    // {
+    //     helper('m_helper');
+    //     $uri = service('uri');
+    //     if (!isset(roleAkses(session()->get('iduser'), $uri->getSegment(1))->lihat) == '1') {
+    //         throw new \CodeIgniter\Router\Exceptions\RedirectException('/');
+    //     }
+    // }
+
+
+    public function index()
     {
         return view('bayer/index');
     }

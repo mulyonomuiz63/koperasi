@@ -21,6 +21,9 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+
+        'authFilter'     => \App\Filters\AuthFilter::class,
+        'guestFilter'    => \App\Filters\GuestFilter::class,
     ];
 
     /**
@@ -49,7 +52,7 @@ class Filters extends BaseConfig
      *
      * If you use this, you should disable auto-routing because auto-routing
      * permits any HTTP method to access a controller. Accessing the controller
-     * with a method you don't expect could bypass the filter.
+     * with a method you don’t expect could bypass the filter.
      */
     public array $methods = [];
 
