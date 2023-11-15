@@ -23,7 +23,7 @@ class M_produk extends Model
     private function _get_datatables_query()
     {
         $this->builder = $this->db->table('produk a');
-        $this->builder->select('a.*, b.komoditi, c.nama');
+        $this->builder->select('a.*, b.komoditi, c.nama as pengepul');
         $this->builder->join('komoditi b', 'a.idkomoditi=b.idkomoditi');
         $this->builder->join('pengepul c', 'a.idpengepul=c.idpengepul');
         $this->builder->where('a.deleted_at', null);
@@ -66,12 +66,31 @@ class M_produk extends Model
         return $builder->countAllResults();
     }
 
-    public function simpan($data)
+    public function simpan($data, $request)
     {
+
+        $number = count($request->getPost('idqreport'));
         $this->db->transBegin();
 
-        $builder = $this->db->table($this->tabel);
+        $builder    = $this->db->table($this->tabel);
         $builder->insert($data);
+        $id         =  $this->db->insertID();
+        $builder2   = $this->db->table('kualitas');
+
+
+        if ($number > 0) {
+            for ($i = 0; $i < $number; $i++) {
+                if (trim($request->getPost('idqreport')[$i] != '')) {
+                    $datas = array(
+                        'idproduk'     => $id,
+                        'idqreport'    => $request->getPost('idqreport')[$i],
+                        'persen'       => $request->getPost('kualitas')[$i]
+                    );
+
+                    $builder2->insert($datas);
+                }
+            }
+        }
         if ($this->db->transStatus() === FALSE) {
             $this->db->transRollback();
             return false;
@@ -89,14 +108,33 @@ class M_produk extends Model
         return $this->builder->get();
     }
 
-    public function updateWhere($data, $produk)
+    public function updateWhere($data, $idproduk, $request)
     {
+        $number = count($request->getPost('idqreport'));
 
         $this->db->transBegin();
 
         $builder = $this->db->table($this->tabel);
-        $builder->where('idproduk', $produk);
+        $builder->where('idproduk', $idproduk);
         $builder->update($data);
+        $id         =  $idproduk;
+        $builder2   = $this->db->table('kualitas');
+
+        if ($number > 0) {
+            for ($i = 0; $i < $number; $i++) {
+                if (trim($request->getPost('idqreport')[$i] != '')) {
+                    $datas = array(
+                        'idproduk'     => $id,
+                        'idqreport'    => $request->getPost('idqreport')[$i],
+                        'persen'       => $request->getPost('kualitas')[$i]
+                    );
+
+                    $builder2->insert($datas);
+                }
+            }
+        }
+
+
         if ($this->db->transStatus() === FALSE) {
             $this->db->transRollback();
             return false;
@@ -122,9 +160,31 @@ class M_produk extends Model
     }
 
 
-    public function get_Komoditi()
+    public function get_komoditi()
     {
         $builder = $this->db->table('komoditi');
+        $builder->where('deleted_at', null);
+        return $builder->get();
+    }
+    public function get_pengepul()
+    {
+        $builder = $this->db->table('pengepul');
+        $builder->where('iduser', session()->get('iduser'));
+        $builder->where('deleted_at', null);
+        return $builder->get();
+    }
+    public function get_kualitas()
+    {
+        $builder = $this->db->table('quality_report');
+        $builder->where('deleted_at', null);
+        return $builder->get();
+    }
+    public function get_kualitasAll()
+    {
+        $builder = $this->db->table('kualitas a');
+        $builder->select('a.idkualitas,a.persen, b.kualitas ');
+        $builder->join('quality_report b', 'a.idqreport=b.idqreport');
+        $builder->where('a.deleted_at', null);
         return $builder->get();
     }
 }

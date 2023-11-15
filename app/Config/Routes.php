@@ -30,6 +30,7 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+$routes->get('home', 'Home::index');
 $routes->get('login', 'Login::index', ['filter' => 'guestFilter']);
 $routes->get('keluar', 'Login::keluar', ['filter' => 'authFilter']);
 $routes->post('login/cek_login', 'Login::cek_login', ['filter' => 'guestFilter']);
@@ -45,6 +46,15 @@ $routes->get('komoditi/tambah', 'Komoditi::tambah', ['filter' => 'authFilter']);
 $routes->post('komoditi/simpan', 'Komoditi::simpan', ['filter' => 'authFilter']);
 $routes->get('komoditi/edit/(:any)', 'Komoditi::edit/$1', ['filter' => 'authFilter']);
 $routes->get('komoditi/delete/(:any)', 'Komoditi::delete/$1', ['filter' => 'authFilter']);
+
+
+// untuk kualitas
+$routes->get('kualitas', 'Kualitas::index', ['filter' => 'authFilter']);
+$routes->post('kualitas/datatablesource', 'Kualitas::datatablesource', ['filter' => 'authFilter']);
+$routes->get('kualitas/tambah', 'Kualitas::tambah', ['filter' => 'authFilter']);
+$routes->post('kualitas/simpan', 'Kualitas::simpan', ['filter' => 'authFilter']);
+$routes->get('kualitas/edit/(:any)', 'Kualitas::edit/$1', ['filter' => 'authFilter']);
+$routes->get('kualitas/delete/(:any)', 'Kualitas::delete/$1', ['filter' => 'authFilter']);
 
 
 
@@ -71,6 +81,7 @@ $routes->post('produk/datatablesource', 'Produk::datatablesource', ['filter' => 
 $routes->get('produk/tambah', 'Produk::tambah', ['filter' => 'authFilter']);
 $routes->post('produk/simpan', 'produk::simpan', ['filter' => 'authFilter']);
 $routes->get('produk/delete/(:any)', 'Produk::delete/$1', ['filter' => 'authFilter']);
+$routes->post('produk/kualitas/delete', 'Produk::deleteKualitas', ['filter' => 'authFilter']);
 $routes->get('produk/edit/(:any)', 'Produk::edit/$1', ['filter' => 'authFilter']);
 
 // untuk bayer
@@ -127,6 +138,28 @@ $routes->post('karyawan/simpan', 'Karyawan::simpan', ['filter' => 'authFilter'])
 $routes->get('karyawan/edit/(:any)', 'Karyawan::edit/$1', ['filter' => 'authFilter']);
 $routes->get('karyawan/delete/(:any)', 'Karyawan::delete/$1', ['filter' => 'authFilter']);
 
+
+// untuk kelompok-tani
+$routes->get('kelompok-tani', 'kelompokTani::index', ['filter' => 'authFilter']);
+$routes->post('kelompok-tani/datatablesource', 'kelompokTani::datatablesource', ['filter' => 'authFilter']);
+$routes->get('kelompok-tani/tambah', 'kelompokTani::tambah', ['filter' => 'authFilter']);
+$routes->post('kelompok-tani/simpan', 'kelompokTani::simpan', ['filter' => 'authFilter']);
+$routes->get('kelompok-tani/edit/(:any)', 'kelompokTani::edit/$1', ['filter' => 'authFilter']);
+$routes->get('kelompok-tani/delete/(:any)', 'kelompokTani::delete/$1', ['filter' => 'authFilter']);
+
+
+// untuk petani
+$routes->get('petani/props/(:any)', 'Petani::props/$1', ['filter' => 'authFilter']);
+$routes->get('petani', 'Petani::index', ['filter' => 'authFilter']);
+$routes->post('petani/datatablesource', 'Petani::datatablesource', ['filter' => 'authFilter']);
+$routes->get('petani/add_ajax_kota/(:any)', 'Petani::add_ajax_kota/$1', ['filter' => 'authFilter']);
+$routes->get('petani/add_ajax_kecamatan/(:any)', 'Petani::add_ajax_kecamatan/$1', ['filter' => 'authFilter']);
+$routes->get('petani/add_ajax_kelurahan/(:any)', 'Petani::add_ajax_kelurahan/$1', ['filter' => 'authFilter']);
+$routes->get('petani/tambah', 'Petani::tambah', ['filter' => 'authFilter']);
+$routes->post('petani/simpan', 'Petani::simpan', ['filter' => 'authFilter']);
+$routes->get('petani/edit/(:any)', 'Petani::edit/$1', ['filter' => 'authFilter']);
+$routes->get('petani/delete/(:any)', 'Petani::delete/$1', ['filter' => 'authFilter']);
+$routes->post('petani/ceklokasi', 'Petani::cekLokasi', ['filter' => 'authFilter']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing

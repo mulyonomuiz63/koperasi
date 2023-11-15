@@ -28,13 +28,13 @@ class AuthFilter implements FilterInterface
         if (!session()->get('isLoggedIn')) {
             return redirect()->to('login');
         }
-        helper('m_helper');
-        $uri = service('uri');
-        if ($uri->getSegment(1)) {
-            if (!roleAkses(session()->get('iduser'), $uri->getSegment(1))) {
-                return redirect()->to('/');
-            }
-        }
+        // helper('m_helper');
+        // $uri = service('uri');
+        // if ($uri->getSegment(1)) {
+        //     if (roleAkses(session()->get('iduser'), $uri->getSegment(1))) {
+        //         return redirect()->to('/');
+        //     }
+        // }
     }
 
     /**

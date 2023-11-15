@@ -25,6 +25,9 @@ class M_pengepul extends Model
         $this->builder = $this->db->table('pengepul a');
         $this->builder->select('a.*, b.email, b.hp');
         $this->builder->join('user b', 'a.iduser=b.iduser');
+        if (session()->get('idrole') == '3') {
+            $this->builder->where('a.iduser', session()->get('iduser'));
+        }
         $this->builder->where('a.deleted_at', null);
         $i = 0;
 
@@ -61,7 +64,8 @@ class M_pengepul extends Model
 
     public function count_all()
     {
-        $builder = $this->db->table($this->tabel);
+        $this->_get_datatables_query();
+        $builder = $this->builder;
         return $builder->countAllResults();
     }
 

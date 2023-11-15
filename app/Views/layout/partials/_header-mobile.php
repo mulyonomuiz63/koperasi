@@ -3,7 +3,7 @@
 
 	<!--begin::Logo-->
 	<a href="index.html">
-		<img height="20px" width="100px" alt="Logo" src="assets/media/logos/logo-light.png" />
+		<img height="20px" width="100px" alt="Logo" src="<?= base_url('assets/media/logos/logo-light.png'); ?> " />
 	</a>
 
 	<!--end::Logo-->

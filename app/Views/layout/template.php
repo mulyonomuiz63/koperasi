@@ -36,6 +36,8 @@
             color: red;
         }
     </style>
+
+    <?= empty($map['js']) ? '' : $map['js']; ?>
 </head>
 <!--end::Head-->
 
@@ -163,6 +165,7 @@
             "font-family": "Poppins"
         };
     </script>
+
     <!--end::Global Config-->
     <!--begin::Global Theme Bundle(used by all pages)-->
     <script src="<?= base_url('assets/plugins/global/plugins.bundle.js') ?>"></script>
@@ -176,9 +179,43 @@
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
     <script src="<?= base_url('assets/js/pages/widgets.js') ?>"></script>
+    <script src="<?= base_url('assets/js/jquery.mask.min.js') ?>"></script>
     <!--end::Page Scripts-->
-
     <?= $this->renderSection('script'); ?>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // Format mata uang.
+            $('#harga').mask('000.000.000.000', {
+                reverse: true
+            });
+
+        })
+
+        function hanyaAngka(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true
+
+        }
+
+        function hapus($id) {
+            <?php
+            $uris = service('uri');
+            $url = $uris->getSegment(1);
+            ?>
+            var result = confirm('Yakin, Anda akan menghapus data');
+            if (result) {
+                window.location = "<?php echo site_url($url . "/delete/") ?>" + $id;
+            }
+        }
+        $("#tambah").hover(function() {
+            // $(this).css('cursor', 'pointer').attr('title', 'This is a hover text.');
+            $("#tambah").attr("title", "Tambah").tooltip("_fixTitle").tooltip("show");
+        });
+    </script>
 </body>
 
 <!--end::Body-->

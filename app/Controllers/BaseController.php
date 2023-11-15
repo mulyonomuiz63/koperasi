@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\M_bayer;
 use App\Models\M_karyawan;
 use App\Models\M_komoditi;
+use App\Models\M_kualitas;
 use App\Models\M_login;
 use App\Models\M_menu;
 use App\Models\M_menurole;
@@ -13,6 +14,8 @@ use App\Models\M_pengiriman;
 use App\Models\M_produk;
 use App\Models\M_role;
 use App\Models\M_user;
+use App\Models\M_kelompok_tani;
+use App\Models\M_petani;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -59,6 +62,7 @@ abstract class BaseController extends Controller
      */
     protected $helpers = ['form', 'file', 'url', 'html', 'download', 'm_helper'];
     protected $m_komoditi;
+    protected $m_kualitas;
     protected $m_pengepul;
     protected $m_pengiriman;
     protected $m_produk;
@@ -69,6 +73,8 @@ abstract class BaseController extends Controller
     protected $m_user;
     protected $m_login;
     protected $m_karyawan;
+    protected $m_kelompok_tani;
+    protected $m_petani;
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -100,6 +106,7 @@ abstract class BaseController extends Controller
 
         //preload model
         $this->m_komoditi   = new M_komoditi();
+        $this->m_kualitas   = new M_kualitas();
         $this->m_pengepul   = new M_pengepul();
         $this->m_pengiriman = new M_pengiriman();
         $this->m_produk     = new M_produk();
@@ -110,5 +117,7 @@ abstract class BaseController extends Controller
         $this->m_user       = new M_user();
         $this->m_login       = new M_login();
         $this->m_karyawan       = new M_karyawan();
+        $this->m_kelompok_tani       = new M_kelompok_tani();
+        $this->m_petani       = new M_petani();
     }
 }

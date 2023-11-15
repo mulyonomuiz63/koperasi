@@ -9,7 +9,7 @@ class M_menurole extends Model
     var $tabel     = 'menu_role';
 
     var $column_order = array('idrole'); //set nama field yang bisa diurutkan
-    var $column_search = array('idrole'); //set nama field yang akan di cari
+    var $column_search = array('menu'); //set nama field yang akan di cari
     var $order = array('idmenurole' => 'asc'); // default order 
 
     function get_datatables()
@@ -95,7 +95,10 @@ class M_menurole extends Model
 
     public function get_by_id($id)
     {
-        $builder = $this->db->table($this->tabel);
+        $builder = $this->db->table('menu_role a');
+        $builder->select('a.*, b.menu, c.role');
+        $builder->join('menu b', 'a.idmenu=b.idmenu');
+        $builder->join('role c', 'a.idrole=c.idrole');
         $builder->where('idmenurole', $id);
         return $builder->get();
     }
