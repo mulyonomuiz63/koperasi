@@ -26,6 +26,12 @@ class M_produk extends Model
         $this->builder->select('a.*, b.komoditi, c.nama as pengepul');
         $this->builder->join('komoditi b', 'a.idkomoditi=b.idkomoditi');
         $this->builder->join('pengepul c', 'a.idpengepul=c.idpengepul');
+        if (session()->get('idrole') == '5') {
+            $this->builder->whereIn('a.status', ['V', 'B']);
+        }
+        if (session()->get('idrole') == '6') {
+            $this->builder->where('a.status', 'N');
+        }
         $this->builder->where('a.deleted_at', null);
         $i = 0;
 
@@ -103,7 +109,8 @@ class M_produk extends Model
     public function get_by_id($id)
     {
         $this->builder = $this->db->table('produk a');
-        $this->builder->select('a.*');
+        $this->builder->select('a.*, b.komoditi');
+        $this->builder->join('komoditi b', 'a.idkomoditi=b.idkomoditi');
         $this->builder->where('a.idproduk', $id);
         return $this->builder->get();
     }
@@ -144,6 +151,22 @@ class M_produk extends Model
         }
     }
     public function hapus($data, $produk)
+    {
+        $this->db->transBegin();
+
+        $builder = $this->db->table($this->tabel);
+        $builder->where('idproduk', $produk);
+        $builder->update($data);
+        if ($this->db->transStatus() === FALSE) {
+            $this->db->transRollback();
+            return false;
+        } else {
+            $this->db->transCommit();
+            return true;
+        }
+    }
+
+    public function aprove($data, $produk)
     {
         $this->db->transBegin();
 

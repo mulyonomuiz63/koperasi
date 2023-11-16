@@ -81,10 +81,10 @@ if (!function_exists('roleAksesMenu')) {
         $sql = "SELECT d.nama as nama_user, b.role, c.menu, a.lihat, a.tambah, a.ubah, a.hapus FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu IN $menu GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
-        $row = $query->getRow();
+        $row = $query->getResult();
 
         if (isset($row)) {
-            if ($row->lihat == '1') {
+            if (count($row) > 0) {
                 return TRUE;
             } else {
                 return FALSE;

@@ -30,7 +30,7 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('home', 'Home::index');
+// $routes->get('home', 'Home::index');
 $routes->get('login', 'Login::index', ['filter' => 'guestFilter']);
 $routes->get('keluar', 'Login::keluar', ['filter' => 'authFilter']);
 $routes->post('login/cek_login', 'Login::cek_login', ['filter' => 'guestFilter']);
@@ -83,6 +83,8 @@ $routes->post('produk/simpan', 'produk::simpan', ['filter' => 'authFilter']);
 $routes->get('produk/delete/(:any)', 'Produk::delete/$1', ['filter' => 'authFilter']);
 $routes->post('produk/kualitas/delete', 'Produk::deleteKualitas', ['filter' => 'authFilter']);
 $routes->get('produk/edit/(:any)', 'Produk::edit/$1', ['filter' => 'authFilter']);
+$routes->post('produk/aprove', 'Produk::aprove', ['filter' => 'authFilter']);
+$routes->post('produk/aproveBuktiTransfer', 'Produk::aproveBuktiTransfer', ['filter' => 'authFilter']);
 
 // untuk bayer
 $routes->get('bayer', 'Bayer::index', ['filter' => 'authFilter']);

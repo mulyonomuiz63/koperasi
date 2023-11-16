@@ -269,13 +269,13 @@ class Petani extends BaseController
         return redirect()->to('petani');
     }
 
-    public function delete($id)
+    public function delete($encode)
     {
-
+        $id = decode($encode);
 
         $data = array(
             'deleted_at'     => date('Y-m-d H:i:s'),
-            'deleted_by'     => 'admin'
+            'deleted_by'     => session()->get('nama')
         );
 
         $simpan = $this->m_petani->updateWhere($data, $id);

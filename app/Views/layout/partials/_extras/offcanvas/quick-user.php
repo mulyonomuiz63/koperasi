@@ -28,7 +28,11 @@ if (session()->get('idrole') == '3') {
 		<!--begin::Header-->
 		<div class="d-flex align-items-center mt-5">
 			<div class="symbol symbol-100 mr-5">
-				<div class="symbol-label" style="background-image:url('<?= base_url('uploads/karyawan/thumbnails/' . $user->foto) ?>')"></div>
+				<?php if (session()->get('idrole') == '3') { ?>
+					<div class="symbol-label" style="background-image:url('<?= base_url('uploads/pengepul/thumbnails/' . isset($user->foto) ? $user->foto : '') ?>')"></div>
+				<?php } else { ?>
+					<div class="symbol-label" style="background-image:url('<?= base_url('uploads/karyawan/thumbnails/' . isset($user->foto) ? $user->foto : '') ?>')"></div>
+				<?php } ?>
 				<i class="symbol-badge bg-success"></i>
 			</div>
 			<div class="d-flex flex-column">

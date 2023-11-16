@@ -25,9 +25,8 @@ class AuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session()->get('isLoggedIn')) {
-            return redirect()->to('login');
-        }
+
+
         // helper('m_helper');
         // $uri = service('uri');
         // if ($uri->getSegment(1)) {
@@ -35,6 +34,10 @@ class AuthFilter implements FilterInterface
         //         return redirect()->to('/');
         //     }
         // }
+
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('login');
+        }
     }
 
     /**
@@ -52,5 +55,33 @@ class AuthFilter implements FilterInterface
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         //
+        helper('m');
+        $uris = service('uri');
+        $url = $uris->getSegment(1);
+        $total = $uris->getTotalSegments();
+        if ($total == 1) {
+            if (!lihat(session()->get('iduser'), "$url")) {
+                return redirect()->to('/');
+            }
+        } elseif ($total == 2) {
+            if (!tambah(session()->get('iduser'), "$url") && $uris->getSegment(2) == 'tambah') {
+                return redirect()->to('/');
+            }
+            if (!ubah(session()->get('iduser'), "$url") && $uris->getSegment(2) == 'ubah') {
+                return redirect()->to('/');
+            }
+            if (!hapus(session()->get('iduser'), "$url") && $uris->getSegment(2) == 'hapus') {
+                return redirect()->to('/');
+            }
+            if (!aprove(session()->get('iduser'), "$url") && $uris->getSegment(2) == 'aprove') {
+                return redirect()->to('/');
+            }
+            if (!cetak(session()->get('iduser'), "$url") && $uris->getSegment(2) == 'cetak') {
+                return redirect()->to('/');
+            }
+            if (!export(session()->get('iduser'), "$url") && $uris->getSegment(2) == 'export') {
+                return redirect()->to('/');
+            }
+        }
     }
 }

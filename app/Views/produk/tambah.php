@@ -44,6 +44,12 @@
                                 <input type="text" onkeypress="return hanyaAngka(event)" id="harga" name="harga" class="form-control" placeholder="Harga">
                             </div>
                         </div>
+                        <div class="col-md-6 pt-2">
+                            <div class="form-group required">
+                                <label for="">Gambar Produk</label>
+                                <input type="file" id="gambar_produk" name="gambar_produk" class="form-control">
+                            </div>
+                        </div>
 
                         <div class="col-md-12 pt-2">
                             <table class="table table-bordered border-none" id="dynamic_field">

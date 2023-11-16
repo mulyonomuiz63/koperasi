@@ -151,6 +151,8 @@ class M_petani extends Model
     public function get_komoditi()
     {
         $builder = $this->db->table('komoditi');
+        $builder->where('deleted_at', null);
+
         return $builder->get();
     }
 
