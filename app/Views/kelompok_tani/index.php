@@ -87,11 +87,11 @@
                     "orderable": false,
                     "className": 'text-center'
                 },
-                {
-                    "targets": [5],
-                    "orderable": false,
-                    "className": 'text-center'
-                },
+                // {
+                //     "targets": [5],
+                //     "orderable": false,
+                //     "className": 'text-center'
+                // },
             ],
             "language": {
                 "infoFiltered": ""

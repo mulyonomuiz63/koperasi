@@ -24,7 +24,7 @@ class Produk extends BaseController
                 } elseif ($rows->status == 'T') {
                     $status = '<span class="badge bg-danger">Pengajuan produk ditolak</span>';
                 } elseif ($rows->status == 'B') {
-                    $status = '<span class="badge bg-success">Produk Aktif</span>';
+                    $status = '<span class="badge bg-success">Produk Sudah Terjual</span>';
                 } else {
                     $status = '<span class="badge bg-danger">Produk Tidak Aktif</span>';
                 }
@@ -69,7 +69,7 @@ class Produk extends BaseController
         $data['komoditi'] = $this->m_produk->get_komoditi()->getResult();
         $data['produk'] = $this->m_produk->get_by_id($id)->getRow();
         $data['kualitas'] = $this->m_produk->get_kualitas()->getResult();
-        $data['kualitasAll'] = $this->m_produk->get_kualitasAll()->getResult();
+        $data['kualitasAll'] = $this->m_produk->get_kualitasAll($id)->getResult();
         return view('produk/edit', $data);
     }
     public function simpan()
@@ -231,7 +231,7 @@ class Produk extends BaseController
         $id     =  $this->request->getPost('idproduk');
         $harga  = str_replace(".", "", $this->request->getPost('harga'));
         $data = array(
-            'status'     => 'V',
+            'status'     => $this->request->getPost('aprove'),
             'harga'     => $harga,
         );
 

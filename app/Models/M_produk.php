@@ -27,12 +27,13 @@ class M_produk extends Model
         $this->builder->join('komoditi b', 'a.idkomoditi=b.idkomoditi');
         $this->builder->join('pengepul c', 'a.idpengepul=c.idpengepul');
         if (session()->get('idrole') == '5') {
-            $this->builder->whereIn('a.status', ['V', 'B']);
+            $this->builder->whereIn('a.status', ['V', 'B', 'T']);
         }
         if (session()->get('idrole') == '6') {
             $this->builder->where('a.status', 'N');
         }
         $this->builder->where('a.deleted_at', null);
+        $this->builder->orderBy('a.idproduk DESC');
         $i = 0;
 
         foreach ($this->column_search as $item) {
@@ -202,11 +203,12 @@ class M_produk extends Model
         $builder->where('deleted_at', null);
         return $builder->get();
     }
-    public function get_kualitasAll()
+    public function get_kualitasAll($id)
     {
         $builder = $this->db->table('kualitas a');
         $builder->select('a.idkualitas,a.persen, b.kualitas ');
         $builder->join('quality_report b', 'a.idqreport=b.idqreport');
+        $builder->where('a.idproduk', $id);
         $builder->where('a.deleted_at', null);
         return $builder->get();
     }

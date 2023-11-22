@@ -72,7 +72,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="">Nilai kualitas</label>
-                                                    <input type="text" name="kualitas[]" class="form-control" />
+                                                    <input type="text" onkeypress="return hanyaAngka(event)" name="kualitas[]" class="form-control" />
                                                 </div>
                                             </div>
                                         </div>
@@ -146,6 +146,19 @@
                         },
                     }
                 },
+                gambar_produk: {
+                    validators: {
+                        file: {
+                            extension: 'jpeg,png,jpg',
+                            type: 'image/jpeg,image/jpg,image/png',
+                            message: 'Foto produk tidak boleh kosong'
+                        },
+                        notEmpty: {
+                            message: 'Foto produk tidak boleh kosong'
+                        },
+                    }
+
+                },
 
             }
         });
@@ -155,7 +168,7 @@
     $('#add').click(function() {
         i++;
         <?php $kual = $kualitas; ?>
-        $('#dynamic_field').append('<tr id="row' + i + '"><td><div class="row"><div class="col-md-6"><div class="form-group"><select name="idqreport[]" class="form-control"><option value="">Pilih</option><?php foreach ($kualitas as $rows) { ?><option value="<?= $rows->idqreport; ?>"><?= $rows->kualitas; ?></option> <?php } ?></select></div></div><div class="col-md-6"><div class="form-group"><input  type="text" name="kualitas[]" class="form-control"/></div></div></div></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+        $('#dynamic_field').append('<tr id="row' + i + '"><td><div class="row"><div class="col-md-6"><div class="form-group"><select name="idqreport[]" class="form-control"><option value="">Pilih</option><?php foreach ($kualitas as $rows) { ?><option value="<?= $rows->idqreport; ?>"><?= $rows->kualitas; ?></option> <?php } ?></select></div></div><div class="col-md-6"><div class="form-group"><input  type="text" onkeypress="return hanyaAngka(event)" name="kualitas[]" class="form-control"/></div></div></div></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
     });
     $(document).on('click', '.btn_remove', function() {
         var button_id = $(this).attr("id");
