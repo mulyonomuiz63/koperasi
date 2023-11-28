@@ -142,12 +142,12 @@ $routes->get('karyawan/delete/(:any)', 'Karyawan::delete/$1', ['filter' => 'auth
 
 
 // untuk kelompok-tani
-$routes->get('kelompok-tani', 'kelompokTani::index', ['filter' => 'authFilter']);
-$routes->post('kelompok-tani/datatablesource', 'kelompokTani::datatablesource', ['filter' => 'authFilter']);
-$routes->get('kelompok-tani/tambah', 'kelompokTani::tambah', ['filter' => 'authFilter']);
-$routes->post('kelompok-tani/simpan', 'kelompokTani::simpan', ['filter' => 'authFilter']);
-$routes->get('kelompok-tani/edit/(:any)', 'kelompokTani::edit/$1', ['filter' => 'authFilter']);
-$routes->get('kelompok-tani/delete/(:any)', 'kelompokTani::delete/$1', ['filter' => 'authFilter']);
+$routes->get('kelompok-tani', 'KelompokTani::index', ['filter' => 'authFilter']);
+$routes->post('kelompok-tani/datatablesource', 'KelompokTani::datatablesource', ['filter' => 'authFilter']);
+$routes->get('kelompok-tani/tambah', 'KelompokTani::tambah', ['filter' => 'authFilter']);
+$routes->post('kelompok-tani/simpan', 'KelompokTani::simpan', ['filter' => 'authFilter']);
+$routes->get('kelompok-tani/edit/(:any)', 'KelompokTani::edit/$1', ['filter' => 'authFilter']);
+$routes->get('kelompok-tani/delete/(:any)', 'KelompokTani::delete/$1', ['filter' => 'authFilter']);
 
 
 // untuk petani
