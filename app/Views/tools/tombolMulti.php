@@ -40,7 +40,7 @@ $enid = encode($id);
 <?php if ($url == 'produk') : ?>
     <?= $this->renderSection('aprove'); ?>
     <?= $this->renderSection('ubah'); ?>
-    <?php if ($status == 'N') : ?>
+    <?php if ($status == 'N' || $status == 'N1') : ?>
         <?= $this->renderSection('hapus'); ?>
     <?php endif; ?>
 <?php endif; ?>

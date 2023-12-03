@@ -80,6 +80,7 @@ $routes->get('produk', 'Produk::index', ['filter' => 'authFilter']);
 $routes->post('produk/datatablesource', 'Produk::datatablesource', ['filter' => 'authFilter']);
 $routes->get('produk/tambah', 'Produk::tambah', ['filter' => 'authFilter']);
 $routes->post('produk/simpan', 'produk::simpan', ['filter' => 'authFilter']);
+$routes->post('produk/simpan/kualitas', 'produk::simpanKualitas', ['filter' => 'authFilter']);
 $routes->get('produk/delete/(:any)', 'Produk::delete/$1', ['filter' => 'authFilter']);
 $routes->post('produk/kualitas/delete', 'Produk::deleteKualitas', ['filter' => 'authFilter']);
 $routes->get('produk/edit/(:any)', 'Produk::edit/$1', ['filter' => 'authFilter']);

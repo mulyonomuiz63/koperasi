@@ -23,6 +23,8 @@ if (isset($status)) {
     <?php if ($url == 'produk') : ?>
         <?php if ($status == null || $status == 'N') : ?>
             <button type="submit" id="simpan" class="btn btn-success" data-toggle="tooltip" data-theme="dark" title="Simpan"><i class="fa fa-save text-white"></i></button>
+        <?php elseif ($status == 'N1') : ?>
+            <button type="submit" id="simpan" class="btn btn-success" data-toggle="tooltip" data-theme="dark" title="Simpan"><i class="fa fa-save text-white"></i></button>
         <?php else : ?>
             <button type="button" id="simpan" class="btn btn-success" data-toggle="tooltip" data-theme="dark" title="Sudah Approved"><i class="fa fa-save text-white"></i></button>
         <?php endif; ?>

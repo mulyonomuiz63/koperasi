@@ -20,7 +20,7 @@ $url = $uris->getSegment(1);
                             <form action="<?php echo (site_url('produk/aprove')) ?>" id="form" method="post" enctype="multipart/form-data">
                             <?php } ?>
                         <?php } else { ?>
-                            <?php if ($produk->status == 'N') { ?>
+                            <?php if ($produk->status == 'N' || $produk->status == 'N1') { ?>
                                 <form action="<?php echo (site_url('produk/simpan')) ?>" id="form" method="post" enctype="multipart/form-data">
                                 <?php } else { ?>
                                     <form>
@@ -71,8 +71,16 @@ $url = $uris->getSegment(1);
                                     </div>
                                     <div class="col-md-6 pt-2">
                                         <div class="form-group required">
-                                            <label for="">Harga Satuan</label>
+                                            <label for="">Harga Per/KG</label>
                                             <input type="text" id="harga" name="harga" class="form-control" placeholder="Harga" value="<?= $produk->harga; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 pt-2">
+                                        <div class="form-group required">
+                                            <label for="">Harga Per/KG</label>
+                                            <input type="text" class="form-control" placeholder="Harga" value="<?= number_format($produk->harga_final, 0, '', '.'); ?>" readonly>
+                                            <small class="text-danger">Harga setelah di proses dengan kualitas.</small>
                                         </div>
                                     </div>
 
@@ -95,21 +103,28 @@ $url = $uris->getSegment(1);
                                     <?php } ?>
                                     <div class="col-md-12 pt-2">
                                         <table class="table table-bordered border-none">
-                                            <thead class="text-center bg-primary">
+                                            <thead class="text-center text-white bg-primary">
                                                 <tr>
                                                     <th class="text-left">Kualitas Produk</th>
                                                     <th class="text-left">Nilai Kualitas</th>
+                                                    <th class="text-left">Total Kualitas</th>
                                                     <th class="text-center">Opsi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($kualitasAll as $rows) { ?>
+                                                <?php
+
+                                                $total = 0;
+                                                foreach ($kualitasAll as $rows) {
+                                                    $total += $rows->total;
+                                                ?>
                                                     <tr>
                                                         <td class="text-left"><?= $rows->kualitas; ?></td>
                                                         <td class="text-left"><?= $rows->persen; ?></td>
+                                                        <td class="text-left"><?= $rows->total; ?></td>
                                                         <td class="text-center">
                                                             <?php if (aprove(session()->get('iduser'), "$url") != 1) { ?>
-                                                                <?php if ($produk->status == 'N' && session()->get('idrole') == '3') { ?>
+                                                                <?php if ($produk->status == 'N' || $produk->status == 'N1') { ?>
                                                                     <a href="javascript:void(0)" onclick="hapusKualitas('<?= $rows->idkualitas; ?>')" class="btn btn-sm btn-danger btn-circle" data-toggle="tooltip" data-placement="left" title="Hapus">
                                                                         <i class="fas fa-trash text-white"></i>
                                                                     </a>
@@ -118,54 +133,15 @@ $url = $uris->getSegment(1);
                                                         </td>
                                                     </tr>
                                                 <?php } ?>
+                                                <tr>
+                                                    <td colspan="2">Randemen</td>
+                                                    <td><?= $total; ?></td>
+                                                    <td>Rp. <?= number_format(($produk->harga * (100 - $total)) / 100); ?> /Kg</td>
+                                                    <input type="hidden" name="harga_final" class="form-control" value="<?= (($produk->harga * (100 - $total)) / 100) ?>">
+                                                </tr>
                                             </tbody>
                                         </table>
-                                        <?php
-                                        if (aprove(session()->get('iduser'), "$url") != 1) { ?>
-                                            <?php if ($produk->status == 'N' && session()->get('idrole') == '3') { ?>
-                                                <table class="table table-bordered border-none" id="dynamic_field">
-                                                    <tr>
-                                                        <td>
-                                                            <div class="row">
 
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="">Kualitas Produk</label>
-                                                                        <select name="idqreport[]" class="form-control">
-                                                                            <option value="">Pilih</option>
-                                                                            <?php foreach ($kualitas as $rows) { ?>
-                                                                                <option value="<?= $rows->idqreport; ?>"><?= $rows->kualitas; ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for="">Nilai kualitas</label>
-                                                                        <input type="text" onkeypress="return hanyaAngka(event)" name="kualitas[]" class="form-control" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </td>
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <label for=""></label>
-                                                                        <div>
-                                                                            <button type="button" name="add" id="add" class="btn btn-success"> <i class="fa fa-plus-circle text-white"></i></button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-
-                                            <?php } ?>
-                                        <?php } ?>
                                         <?php if (session()->get('idrole') == '5') { ?>
                                             <?php if ($produk->status == 'V') { ?>
 
@@ -224,6 +200,13 @@ $url = $uris->getSegment(1);
                                         <?php endif; ?>
                                     </div>
                                 </div>
+                                <?php if (aprove(session()->get('iduser'), "$url") != 1) { ?>
+                                    <?php if ($produk->status == 'N' || $produk->status == 'N1' && session()->get('idrole') == '3') { ?>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                            Tambah Kualitas Produk
+                                        </button>
+                                    <?php } ?>
+                                <?php } ?>
                                 <br>
                                 <div class="clearfix"></div>
                                 <?php
@@ -236,6 +219,115 @@ $url = $uris->getSegment(1);
         </div>
     </div>
 </div>
+
+
+<!-- modal tambah kualitas -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <form action="<?php echo (site_url('produk/simpan/kualitas')) ?>" enctype="multipart/form-data" id="formKualitas" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <?php
+                        if (aprove(session()->get('iduser'), "$url") != 1) { ?>
+                            <?php if ($produk->status == 'N' || $produk->status == 'N1' && session()->get('idrole') == '3') { ?>
+                                <table class="table table-bordered border-none" id="dynamic_field">
+                                    <tr>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Kualitas Produk</label>
+                                                        <select name="idqreport" class="form-control">
+                                                            <option value="">Pilih</option>
+                                                            <?php foreach ($kualitas as $rows) { ?>
+                                                                <option value="<?= $rows->idqreport; ?>"><?= $rows->kualitas; ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <input type="hidden" id="idproduk" name="idproduk" class="form-control" value="<?= $produk->idproduk; ?>">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Nilai kualitas</label>
+                                                        <input type="text" id="kualitas" name="kualitas" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Total</label>
+                                                        <input type="text" id="totalTampil" class="form-control" readonly />
+                                                        <input type="hidden" id="total" name="total" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Nilai Pembulat 1</label>
+                                                        <input type="text" id="pembulat1" name="pembulat1" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Penjumlah 1</label>
+                                                        <select id="penjumlah1" name="penjumlah1" class="form-control">
+                                                            <option value="">Pilih</option>
+                                                            <option value="+">+</option>
+                                                            <option value="-">-</option>
+                                                            <option value=":">:</option>
+                                                            <option value="*">*</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="">Nilai Pembulat 2</label>
+                                                        <input type="text" id="pembulat2" name="pembulat2" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="">Penjumlah 2</label>
+                                                        <select id="penjumlah2" name="penjumlah2" class="form-control">
+                                                            <option value="">Pilih</option>
+                                                            <option value="+">+</option>
+                                                            <option value="-">-</option>
+                                                            <option value=":">:</option>
+                                                            <option value="*">*</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Kembali</button>
+                    <button type="submit" class="btn btn-primary font-weight-bold">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end modal tambah kualitas -->
+
+
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
 <script type="text/javascript">
@@ -305,6 +397,31 @@ $url = $uris->getSegment(1);
                 },
             }
         });
+        $("#formKualitas").click(function() {
+            $(this).bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    idqreport: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Kualitas produk tidak boleh kosong'
+                            },
+                        }
+                    },
+                    kualitas: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Nilai kualitas tidak boleh kosong'
+                            },
+                        }
+                    },
+                }
+            });
+        })
     })
 
     function hapusKualitas($id) {
@@ -333,11 +450,118 @@ $url = $uris->getSegment(1);
             });
         }
     }
+
+    $(document).on('keyup', '#kualitas', function(e) {
+
+        var str = $(this).val();
+        $('#total').val(str);
+        $('#totalTampil').val(str);
+        $('#penjumlah1').val('').select();
+        $('#penjumlah2').val('').select();
+        $('#pembulat1').val('');
+        $('#pembulat2').val('');
+
+    });
+    $(document).on('keyup', '#pembulat1', function(e) {
+        $('#penjumlah1').val('').select();
+        var str = $('#kualitas').val();
+        $('#total').val(str);
+        $('#totalTampil').val(str);
+    });
+    $(document).on('keyup', '#pembulat2', function(e) {
+        $('#penjumlah2').val('').select();
+        var kualitas = parseFloat($('#kualitas').val());
+        var pembulat1 = parseFloat($('#pembulat1').val());
+        var penjumlah1 = $('#penjumlah1').val();
+        if ((penjumlah1 == '')) {
+            var hasil = kualitas;
+            $('#pembulat1').val();
+        } else if (penjumlah1 == '+') {
+            var hasil = kualitas + pembulat1;
+        } else if (penjumlah1 == '-') {
+            var hasil = kualitas - pembulat1;
+        } else if (penjumlah1 == ':') {
+            var hasil = kualitas / pembulat1;
+        } else {
+            var hasil = kualitas * pembulat1;
+        }
+        $('#total').val(hasil);
+        $('#totalTampil').val(hasil);
+    });
+
+    $("#penjumlah1").change(function() {
+        var kualitas = parseFloat($('#kualitas').val());
+        var pembulat1 = parseFloat($('#pembulat1').val());
+        var penjumlah1 = $('#penjumlah1').val();
+        if (pembulat1 != 'NaN') {
+            if ((penjumlah1 == '')) {
+                var hasil = kualitas;
+                $('#pembulat1').val();
+            } else if (penjumlah1 == '+') {
+                var hasil = kualitas + pembulat1;
+            } else if (penjumlah1 == '-') {
+                var hasil = kualitas - pembulat1;
+            } else if (penjumlah1 == ':') {
+                var hasil = kualitas / pembulat1;
+            } else {
+                var hasil = kualitas * pembulat1;
+            }
+        } else {
+            var hasil = kualitas;
+        }
+        $('#penjumlah2').val('').select();
+        $('#pembulat2').val('');
+        $('#total').val(hasil);
+        $('#totalTampil').val(hasil);
+    })
+
+    $("#penjumlah2").change(function() {
+        var kualitas = parseFloat($('#kualitas').val());
+        var pembulat1 = parseFloat($('#pembulat1').val());
+        var penjumlah1 = $('#penjumlah1').val();
+        if (pembulat1 != 'NaN' && penjumlah1 == '') {
+            var hasil = kualitas;
+        } else {
+            if ((penjumlah1 == '')) {
+                var hasil = kualitas;
+                $('#pembulat1').val();
+            } else if (penjumlah1 == '+') {
+                var hasil1 = kualitas + pembulat1;
+            } else if (penjumlah1 == '-') {
+                var hasil1 = kualitas - pembulat1;
+            } else if (penjumlah1 == ':') {
+                var hasil1 = kualitas / pembulat1;
+            } else {
+                var hasil1 = kualitas * pembulat1;
+            }
+
+            var pembulat2 = parseFloat($('#pembulat2').val());
+            var penjumlah2 = $('#penjumlah2').val();
+            if ((penjumlah2 == '')) {
+                var hasil = hasil1;
+                $('#pembulat2').val('')
+            } else if (penjumlah2 == '+') {
+                var hasil = hasil1 + pembulat2;
+            } else if (penjumlah2 == '-') {
+                var hasil = hasil1 - pembulat2;
+            } else if (penjumlah2 == ':') {
+                var hasil = hasil1 / pembulat2;
+            } else {
+                var hasil = hasil1 * pembulat2;
+            }
+        }
+        $('#total').val(hasil);
+        $('#totalTampil').val(hasil);
+    })
+
+
+
+
     var i = 1;
     $('#add').click(function() {
         i++;
         <?php $kual = $kualitas; ?>
-        $('#dynamic_field').append('<tr id="row' + i + '"><td><div class="row"><div class="col-md-6"><div class="form-group"><select name="idqreport[]" class="form-control"><option value="">Pilih</option><?php foreach ($kualitas as $rows) { ?><option value="<?= $rows->idqreport; ?>"><?= $rows->kualitas; ?></option> <?php } ?></select></div></div><div class="col-md-6"><div class="form-group"><input  type="text" name="kualitas[]" class="form-control"/></div></div></div></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+        $('#dynamic_field').append('<tr id="row' + i + '"><td><div class="row"><div class="col-md-6"><div class="form-group"><select name="idqreport" class="form-control"><option value="">Pilih</option><?php foreach ($kualitas as $rows) { ?><option value="<?= $rows->idqreport; ?>"><?= $rows->kualitas; ?></option> <?php } ?></select></div></div><div class="col-md-6"><div class="form-group"><input  type="text" name="kualitas" class="form-control"/></div></div></div></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
     });
     $(document).on('click', '.btn_remove', function() {
         var button_id = $(this).attr("id");

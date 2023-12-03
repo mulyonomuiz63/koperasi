@@ -201,6 +201,19 @@
 
         }
 
+        $(document).on('keyup', '#kualitas', function(e) {
+
+            var regex = /[a-zA-Z!"#$'()_=&`~|{}^:;/?<>@,]/g;
+            var subst = "";
+
+            var str = $(this).val();
+            var result = str.replace(regex, subst);
+            $(this).val(result);
+            console.log(e)
+            $('#nilai_pembulat1').val($(this).val());
+
+        });
+
         function hapus($id) {
             <?php
             $uris = service('uri');

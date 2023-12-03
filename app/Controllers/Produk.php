@@ -17,7 +17,9 @@ class Produk extends BaseController
 
         if ($RsData->getNumRows() > 0) {
             foreach ($RsData->getResult() as $rows) {
-                if ($rows->status == "N") {
+                if ($rows->status == "N1") {
+                    $status = '<span class="badge bg-warning">Produk menunggu perhitungan kualitas</span>';
+                } elseif ($rows->status == "N") {
                     $status = '<span class="badge bg-warning">Menunggu verifikasi produk</span>';
                 } elseif ($rows->status == 'V') {
                     $status = '<span class="badge bg-primary">Produk telah diverifikasi</span>';
@@ -80,7 +82,8 @@ class Produk extends BaseController
         $idkomoditi     = $this->request->getPost('idkomoditi');
         $qty            = $this->request->getPost('qty');
         $harga          = str_replace(".", "", $this->request->getPost('harga'));
-        $status         = 'N';
+        $harga_final    = str_replace(".", "", $this->request->getPost('harga_final'));
+        $status         = 'N1';
         $ltambah        = $this->request->getPost('ltambah');
 
         $gambar_produk = $this->request->getFile('gambar_produk');
@@ -120,6 +123,24 @@ class Produk extends BaseController
             );
 
             $simpan = $this->m_produk->simpan($data, $this->request);
+            if (!$simpan) {
+                $eror = $this->db->error();
+                $pesan = '<div>
+                            <div class="alert alert-danger alert-dismissable">
+                                <strong>Gagal!</strong> Data gagal disimpan! <br>
+                                Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
+                            </div>
+                        </div>';
+            } else {
+                $pesan = '<div>
+						<div class="alert alert-success alert-dismissable">
+			                <strong>Berhasil.</strong> Data telah disimpan
+					    </div>
+					</div>';
+            }
+
+            $this->session->setFlashdata('pesan', $pesan);
+            return redirect()->to('produk/edit/' . encode($simpan));
         } else { // ini kondisi jika edit data
             if ($gambar_produk->isValid()) {
                 $nama_gambar = $gambar_produk->getRandomName();
@@ -149,32 +170,74 @@ class Produk extends BaseController
                 'idkomoditi'     => $idkomoditi,
                 'idpengepul'     =>  $idpengepul,
                 'produk'         => $produk,
-                'status'         => $status,
+                'status'         => 'N',
                 'qty'            => $qty,
                 'harga'          => $harga,
+                'harga_final'    => $harga_final,
                 'gambar_produk'  => $nama_gambar,
             );
-            $simpan = $this->m_produk->updateWhere($data, $idproduk, $this->request);
-        }
-
-        if ($simpan) {
-            $pesan = '<div>
+            $simpan = $this->m_produk->updateWhere($data, $idproduk);
+            if ($simpan) {
+                $pesan = '<div>
 						<div class="alert alert-success alert-dismissable">
 			                <strong>Berhasil.</strong> Data telah disimpan
 					    </div>
 					</div>';
-        } else {
-            $eror = $this->db->error();
-            $pesan = '<div>
+            } else {
+                $eror = $this->db->error();
+                $pesan = '<div>
 						<div class="alert alert-danger alert-dismissable">
 			                <strong>Gagal!</strong> Data gagal disimpan! <br>
 			                Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
 					    </div>
 					</div>';
+            }
+
+            $this->session->setFlashdata('pesan', $pesan);
+            return redirect()->to('produk/edit/' . encode($idproduk));
+        }
+    }
+
+    public function simpanKualitas()
+    {
+        $idproduk       = $this->request->getPost('idproduk');
+        $idqreport      = $this->request->getPost('idqreport');
+        $kualitas       = $this->request->getPost('kualitas');
+        $total          = $this->request->getPost('total');
+        $pembulat1      = $this->request->getPost('pembulat1');
+        $pembulat2      = $this->request->getPost('pembulat2');
+        $penjumlah1     = $this->request->getPost('penjumlah1');
+        $penjumlah2     = $this->request->getPost('penjumlah2');
+
+
+
+        $data = array(
+            'idproduk'          => $idproduk,
+            'idqreport'         =>  $idqreport,
+            'persen'            => $kualitas,
+            'nilai_pembulat'    => "$kualitas $penjumlah1 $pembulat1 $penjumlah2 $pembulat2",
+            'total'             => $total,
+        );
+
+        $simpan = $this->m_produk->simpanKualitas($data);
+        if (!$simpan) {
+            $eror = $this->db->error();
+            $pesan = '<div>
+                            <div class="alert alert-danger alert-dismissable">
+                                <strong>Gagal!</strong> Data gagal disimpan! <br>
+                                Pesan Error : ' . $eror['code'] . ' ' . $eror['message'] . '
+                            </div>
+                        </div>';
+        } else {
+            $pesan = '<div>
+						<div class="alert alert-success alert-dismissable">
+			                <strong>Berhasil.</strong> Data telah disimpan
+					    </div>
+					</div>';
         }
 
         $this->session->setFlashdata('pesan', $pesan);
-        return redirect()->to('produk');
+        return redirect()->to('produk/edit/' . encode($idproduk));
     }
 
     public function delete($encode)
@@ -213,7 +276,7 @@ class Produk extends BaseController
     {
         $encode =  $this->request->getPost('id');
 
-        $id = decode($encode);
+        $id = ($encode);
         $builder = $this->db->table('kualitas');
 
         $builder->where('idkualitas', $id);

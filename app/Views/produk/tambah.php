@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-6 pt-2">
                             <div class="form-group required">
-                                <label for="">Harga Satuan</label>
+                                <label for="">Harga Per/KG</label>
                                 <input type="text" onkeypress="return hanyaAngka(event)" id="harga" name="harga" class="form-control" placeholder="Harga">
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12 pt-2">
+                        <!-- <div class="col-md-12 pt-2">
                             <table class="table table-bordered border-none" id="dynamic_field">
                                 <tr>
                                     <td>
@@ -92,7 +92,7 @@
                                     </td>
                                 </tr>
                             </table>
-                        </div>
+                        </div> -->
                     </div>
                     <br>
                     <div class="clearfix"></div>
