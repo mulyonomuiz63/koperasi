@@ -5,40 +5,38 @@
     <?= $this->include('layout/_headerBawah'); ?>
     <!--end::Subheader-->
     <!--begin::Entry-->
-    <div class="d-flex flex-column-fluid">
-        <!--begin::Container-->
-        <div class="container">
-            <?php
-            $pesan = session()->getFlashData('pesan');
-            if (!empty($pesan)) {
-                echo $pesan;
-            }
-            ?>
-            <!--begin::Card-->
-            <div class="card card-custom">
-                <?= $this->include('tools/tombolTambah'); ?>
-                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 60vh;padding:10px 20px">
-                    <!--begin: Datatable-->
-                    <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 1110px;">
-                        <thead class="text-center">
-                            <tr>
-                                <th class="text-left">Nama User</th>
-                                <th>Role AKses</th>
-                                <th>Email</th>
-                                <th>Hp</th>
-                                <th>Verifikasi Email</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+    <!--begin::Container-->
+    <div class="ml-5 mr-5">
+        <?php
+        $pesan = session()->getFlashData('pesan');
+        if (!empty($pesan)) {
+            echo $pesan;
+        }
+        ?>
+        <!--begin::Card-->
+        <div class="card card-custom">
+            <?= $this->include('tools/tombolTambah'); ?>
+            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 60vh;padding:10px 20px">
+                <!--begin: Datatable-->
+                <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 1110px;">
+                    <thead class="text-center">
+                        <tr>
+                            <th class="text-left">Nama User</th>
+                            <th>Role AKses</th>
+                            <th>Email</th>
+                            <th>Hp</th>
+                            <th>Verifikasi Email</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                        </tbody>
-                    </table>
-
-                </div>
+                    </tbody>
+                </table>
 
             </div>
+
         </div>
     </div>
 </div>

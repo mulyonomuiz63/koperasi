@@ -33,14 +33,14 @@
                         </div>
                         <div class="col-md-6 pt-2">
                             <div class="form-group required">
-                                <label for="">QTY</label>
+                                <label for="">QTY Per/Kg</label>
                                 <input type="text" onkeypress="return hanyaAngka(event)" id="qty" name="qty" class="form-control" placeholder="QTY">
                                 <small>Satuan/Kg</small>
                             </div>
                         </div>
                         <div class="col-md-6 pt-2">
                             <div class="form-group required">
-                                <label for="">Harga Per/KG</label>
+                                <label for="">Harga Per/Kg</label>
                                 <input type="text" onkeypress="return hanyaAngka(event)" id="harga" name="harga" class="form-control" placeholder="Harga">
                             </div>
                         </div>

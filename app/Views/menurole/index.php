@@ -5,45 +5,41 @@
     <?= $this->include('layout/_headerBawah'); ?>
     <!--end::Subheader-->
     <!--begin::Entry-->
-    <div class="d-flex flex-column-fluid">
-        <!--begin::Container-->
-        <div class="container">
-            <?php
-            $pesan = session()->getFlashData('pesan');
-            if (!empty($pesan)) {
-                echo $pesan;
-            }
-            ?>
-            <!--begin::Card-->
-            <div class="card card-custom">
-                <?= $this->include('tools/tombolTambah'); ?>
-                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 50vh;padding:10px 20px">
-                    <!--begin: Datatable-->
-                    <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Menu</th>
-                                <th class="text-center">Role</th>
-                                <th class="text-center">Lihat</th>
-                                <th class="text-center">Tambah</th>
-                                <th class="text-center">Ubah</th>
-                                <th class="text-center">Hapus</th>
-                                <th class="text-center">Approve</th>
-                                <th class="text-center">Cetak</th>
-                                <th class="text-center">Export</th>
-                                <th class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+    <!--begin::Container-->
+    <div class="ml-5 mr-5">
+        <?php
+        $pesan = session()->getFlashData('pesan');
+        if (!empty($pesan)) {
+            echo $pesan;
+        }
+        ?>
+        <!--begin::Card-->
+        <div class="card card-custom">
+            <?= $this->include('tools/tombolTambah'); ?>
+            < class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 50vh;padding:10px 20px">
+                <!--begin: Datatable-->
+                <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Menu</th>
+                            <th class="text-center">Role</th>
+                            <th class="text-center">Lihat</th>
+                            <th class="text-center">Tambah</th>
+                            <th class="text-center">Ubah</th>
+                            <th class="text-center">Hapus</th>
+                            <th class="text-center">Approve</th>
+                            <th class="text-center">Cetak</th>
+                            <th class="text-center">Export</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                        </tbody>
-                    </table>
-
-                </div>
-
-            </div>
+                    </tbody>
+                </table>
         </div>
     </div>
+</div>
 </div>
 
 <?= $this->endSection() ?>

@@ -15,6 +15,7 @@ use App\Models\M_produk;
 use App\Models\M_role;
 use App\Models\M_user;
 use App\Models\M_kelompok_tani;
+use App\Models\M_landing;
 use App\Models\M_petani;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
@@ -75,6 +76,7 @@ abstract class BaseController extends Controller
     protected $m_karyawan;
     protected $m_kelompok_tani;
     protected $m_petani;
+    protected $m_landing;
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -119,5 +121,6 @@ abstract class BaseController extends Controller
         $this->m_karyawan       = new M_karyawan();
         $this->m_kelompok_tani       = new M_kelompok_tani();
         $this->m_petani       = new M_petani();
+        $this->m_landing       = new M_landing();
     }
 }

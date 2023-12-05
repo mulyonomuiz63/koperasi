@@ -40,7 +40,7 @@ class M_login extends Model
 					<br>Silahkan aktivasi akun anda dibawah ini.</span><br><br>
 					
 					<div style="width: 100%;">
-						<button style="background-color: #055F93; width: 300px; height: 50px; color: white"><a href="' . site_url("Login/verifikasi/" . $encrypted_id . '/' . $kode_referal) . '" style="color: white; text-decoration: none">AKTIVASI AKUN</a></button>			
+						<button style="background-color: #24ca4b; width: 300px; height: 50px; color: white"><a href="' . site_url("Login/verifikasi/" . $encrypted_id . '/' . $kode_referal) . '" style="color: white; text-decoration: none">AKTIVASI AKUN</a></button>			
 					</div><br><br>
 
 					<div style="width: 100%; font-size: 14px;">
@@ -147,7 +147,7 @@ class M_login extends Model
 					Silahkan login dengan password baru anda: </span><br><br>
 					
 					<div style="width: 100%;">
-						<div style="background-color: #055F93; width: 300px; height: 50px; font-size: 35px; text-align:center; color: white">' . $password_reset . '</div>			
+						<div style="background-color: #24ca4b; width: 300px; height: 50px; font-size: 35px; text-align:center; color: white">' . $password_reset . '</div>			
 					</div><br><br>
 
 					<div style="width: 100%; font-size: 14px;">

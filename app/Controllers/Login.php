@@ -38,7 +38,7 @@ class Login extends BaseController
                     );
 
                     $this->session->set($data);
-                    return redirect()->to('/');
+                    return redirect()->to('dashboard');
                 } else {
                     $pesan = '<div class="alert alert-danger">email atau password anda salah </div>';
                     $this->session->setFlashdata('pesan', $pesan);

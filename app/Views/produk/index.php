@@ -5,36 +5,35 @@
     <?= $this->include('layout/_headerBawah'); ?>
     <!--end::Subheader-->
     <!--begin::Entry-->
-    <div class="d-flex flex-column-fluid">
-        <!--begin::Container-->
-        <div class="container">
-            <?php
-            $pesan = session()->getFlashData('pesan');
-            if (!empty($pesan)) {
-                echo $pesan;
-            }
-            ?>
-            <!--begin::Card-->
-            <div class="card card-custom ">
-                <?= $this->include('tools/tombolTambah'); ?>
-                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 50vh;padding: 10px; 20px">
-                    <!--begin: Datatable-->
-                    <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 1110px;">
-                        <thead class="text-center">
-                            <tr>
-                                <th class="text-left">Pengepul</th>
-                                <th class="text-left">Produk</th>
-                                <th class="text-center">Komoditi</th>
-                                <th class="text-center">Qty</th>
-                                <th class="text-center">Harga Satuan</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+    <!--begin::Container-->
+    <div class="ml-5 mr-5">
+        <?php
+        $pesan = session()->getFlashData('pesan');
+        if (!empty($pesan)) {
+            echo $pesan;
+        }
+        ?>
+        <!--begin::Card-->
+        <div class="card card-custom ">
+            <?= $this->include('tools/tombolTambah'); ?>
+            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 50vh;padding: 10px; 20px">
+                <!--begin: Datatable-->
+                <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 1110px;">
+                    <thead class="text-center">
+                        <tr>
+                            <th class="text-left">Pengepul</th>
+                            <th class="text-left">Produk</th>
+                            <th class="text-center">Komoditi</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-center">Harga Satuan Final</th>
+                            <th class="text-center">Total Harga</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -93,6 +92,11 @@
                 },
                 {
                     "targets": [6],
+                    "orderable": false,
+                    "className": 'text-center'
+                },
+                {
+                    "targets": [7],
                     "orderable": false,
                     "className": 'text-center'
                 },

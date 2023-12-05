@@ -60,7 +60,7 @@ $url = $uris->getSegment(1);
                                     </div>
                                     <div class="col-md-6 pt-2">
                                         <div class="form-group required">
-                                            <label for="">QTY</label>
+                                            <label for="">QTY Per/Kg</label>
                                             <?php if (aprove(session()->get('iduser'), "$url") != 1) { ?>
                                                 <input type="number" id="qty" name="qty" class="form-control" placeholder="QTY" value="<?= $produk->qty; ?>">
                                             <?php } else { ?>
@@ -71,16 +71,24 @@ $url = $uris->getSegment(1);
                                     </div>
                                     <div class="col-md-6 pt-2">
                                         <div class="form-group required">
-                                            <label for="">Harga Per/KG</label>
+                                            <label for="">Harga Per/Kg</label>
                                             <input type="text" id="harga" name="harga" class="form-control" placeholder="Harga" value="<?= $produk->harga; ?>">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6 pt-2">
                                         <div class="form-group required">
-                                            <label for="">Harga Per/KG</label>
+                                            <label for="">Harga Per/Kg Final</label>
                                             <input type="text" class="form-control" placeholder="Harga" value="<?= number_format($produk->harga_final, 0, '', '.'); ?>" readonly>
                                             <small class="text-danger">Harga setelah di proses dengan kualitas.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 pt-2">
+                                        <div class="form-group required">
+                                            <label for="">Total Harga</label>
+                                            <input type="text" class="form-control" placeholder="Harga" value="<?= number_format($produk->qty * $produk->harga_final, 0, '', '.'); ?>" readonly>
+                                            <small class="text-danger">Harga Per/KG Final di Kali QTY.</small>
                                         </div>
                                     </div>
 

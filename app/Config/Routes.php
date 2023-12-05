@@ -30,6 +30,9 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+$routes->get('/', 'Landing::index');
+
+
 // $routes->get('home', 'Home::index');
 $routes->get('login', 'Login::index', ['filter' => 'guestFilter']);
 $routes->get('keluar', 'Login::keluar', ['filter' => 'authFilter']);
@@ -37,7 +40,7 @@ $routes->post('login/cek_login', 'Login::cek_login', ['filter' => 'guestFilter']
 
 
 
-$routes->get('/', 'Home::index', ['filter' => 'authFilter']);
+$routes->get('dashboard', 'Home::index', ['filter' => 'authFilter']);
 
 // untuk komoditi
 $routes->get('komoditi', 'Komoditi::index', ['filter' => 'authFilter']);

@@ -36,7 +36,8 @@ class Produk extends BaseController
                 $row[] = $rows->produk;
                 $row[] = $rows->komoditi;
                 $row[] = $rows->qty;
-                $row[] = number_format($rows->harga, 0, ',', '.');
+                $row[] = number_format($rows->harga_final, 0, ',', '.');
+                $row[] = number_format($rows->qty * $rows->harga_final, 0, ',', '.');
                 $row[] =  $status;
                 $datas['id'] = $rows->idproduk;
                 $datas['status'] = $rows->status;
