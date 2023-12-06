@@ -10,7 +10,7 @@
 
     <meta property="og:title" content="Koperasi multi pihak surya makmur agro teknologi" />
     <!--<meta property="og:type" content="article" />-->
-    <meta property="og:url" content="<?= base_url('/'); ?>" />
+    <meta property="og:url" content="<?php echo base_url('/'); ?>" />
     <meta property="og:description" content="Koperasi multi pihak surya makmur agro teknologi membangun sebuah kepercayaan terhadap masyarakat tentu bukanlah hal yang mudah, apalagi bagi sebuah perusahaan Koperasi yang lahir dan tumbuh di daerah, berawal dari sebuah cita-cita membangun ekonomi dari Daerah" />
 
 
@@ -18,21 +18,21 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Page Vendors Styles(used by this page)-->
-    <link href="<?= base_url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/plugins/custom/datatables/datatables.bundle.css') ?>" rel="stylesheet" type="text/css" />
     <!--end::Page Vendors Styles-->
     <!--begin::Global Theme Styles(used by all pages)-->
-    <link href="<?= base_url('assets/plugins/global/plugins.bundle.css') ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('assets/plugins/custom/prismjs/prismjs.bundle.css') ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('assets/css/style.bundle.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/plugins/global/plugins.bundle.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/plugins/custom/prismjs/prismjs.bundle.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/css/style.bundle.css') ?>" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
-    <link href="<?= base_url('assets/css/themes/layout/header/base/light.css') ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('assets/css/themes/layout/header/menu/light.css') ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('assets/css/themes/layout/brand/dark.css') ?>" rel="stylesheet" type="text/css" />
-    <link href="<?= base_url('assets/css/themes/layout/aside/dark.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/css/themes/layout/header/base/light.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/css/themes/layout/header/menu/light.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/css/themes/layout/brand/dark.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/css/themes/layout/aside/dark.css') ?>" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="<?= base_url('assets/media/logos/favicon.png') ?>" />
+    <link rel="shortcut icon" href="<?php echo base_url('assets/media/logos/favicon.png') ?>" />
 
     <style>
         .help-block {
@@ -171,18 +171,18 @@
 
     <!--end::Global Config-->
     <!--begin::Global Theme Bundle(used by all pages)-->
-    <script src="<?= base_url('assets/plugins/global/plugins.bundle.js') ?>"></script>
-    <script src="<?= base_url('assets/plugins/custom/prismjs/prismjs.bundle.js') ?>"></script>
-    <script src="<?= base_url('assets/js/scripts.bundle.js') ?>"></script>
+    <script src="<?php echo base_url('assets/plugins/global/plugins.bundle.js') ?>"></script>
+    <script src="<?php echo base_url('assets/plugins/custom/prismjs/prismjs.bundle.js') ?>"></script>
+    <script src="<?php echo base_url('assets/js/scripts.bundle.js') ?>"></script>
     <!--end::Global Theme Bundle-->
     <!--begin::Page Vendors(used by this page)-->
-    <script src="<?= base_url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') ?>"></script>
-    <script src="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.js') ?>"></script>
+    <script src="<?php echo base_url('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') ?>"></script>
+    <script src="<?php echo base_url('assets/plugins/custom/datatables/datatables.bundle.js') ?>"></script>
     <script src="<?php echo (base_url('assets/bootstrap-validator/js/bootstrapValidator.js')) ?>"></script>
     <!--end::Page Vendors-->
     <!--begin::Page Scripts(used by this page)-->
-    <script src="<?= base_url('assets/js/pages/widgets.js') ?>"></script>
-    <script src="<?= base_url('assets/js/jquery.mask.min.js') ?>"></script>
+    <script src="<?php echo base_url('assets/js/pages/widgets.js') ?>"></script>
+    <script src="<?php echo base_url('assets/js/jquery.mask.min.js') ?>"></script>
     <!--end::Page Scripts-->
     <?= $this->renderSection('script'); ?>
     <script type="text/javascript">
