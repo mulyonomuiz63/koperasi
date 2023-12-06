@@ -10,7 +10,7 @@ class Login extends BaseController
 
     public function index(): string
     {
-        return view('admin/login/index');
+        return view('admin/login/sigin');
     }
 
 
@@ -53,129 +53,113 @@ class Login extends BaseController
             return redirect()->to('login');
         }
     }
-
-    public function simpanregistrasi()
+    public function registrasi()
     {
-        $namaperusahaan    = $this->request->getPost('namaperusahaan');
-        $tglmulaiusaha    = date('Y-m-d', strtotime($this->request->getPost('tglmulaiusaha')));
-        $email            = $this->request->getPost('email');
-        $string           = $this->request->getPost('username');
+        return view('admin/login/registrasi');
+    }
+    public function simpanRegistrasi()
+    {
+        $nama           = $this->request->getPost('nama');
+        $email          = $this->request->getPost('email');
+        $hp             = $this->request->getPost('hp');
         $password         = md5($this->request->getPost('password'));
-        $password2         = md5($this->request->getPost('password2'));
-        $tglregistrasi    = date('Y-m-d H:i:s');
-        // $tglberakhir    = date('Y-m-d H:i:s', strtotime('+90 days', strtotime($tglregistrasi)));
-        $tglberakhir    = null;
-        $encrypted_id     = md5(trim($email));
-        $kode_referal    = $this->request->getPost('kode_referal');
+        $cpassword         = md5($this->request->getPost('cpassword'));
+        $privasi        = $this->request->getPost('privasi');
 
 
-        $result = "$string";
-        $username = preg_replace("/[^a-zA-Z0-9_.@]/", "", $result);
-
-        if ($password != $password2) {
+        if ($password != $cpassword) {
             $pesan = '<div class="alert alert-danger">Ulangi Password tidak sama</div>';
             $this->session->setFlashdata('pesan', $pesan);
-            return redirect()->to('Login/registrasi');
+            return redirect()->to('registrasi');
             exit();
         }
 
-
-
-        $cekid = $this->login_model->cek_email($email);
+        $cekid = $this->m_login->cek_email($email);
         if ($cekid->getNumRows() > 0) {
-            if ($cekid->getRow()->statusverif == 1) {
+            if ($cekid->getRow()->verifikasi_email == '1') {
                 $pesan = '<div class="alert alert-danger">Email sudah terdaftar</div>';
                 $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('Login/registrasi');
+                return redirect()->to('registrasi');
                 exit();
             } else {
                 $pesan = '<div class="alert alert-danger">Email sudah terdaftar & belum diaktivasi</div>';
                 $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('Login/registrasi');
+                return redirect()->to('registrasi');
                 exit();
             }
         } else {
 
-            //kirim aktivasi
-            $from_email = 'no-replay@akuntanmu.com';
-            $from_nama = 'AKUNTANMU';
-            $passwordemail = 'Akuntanmu123@#';
+            $lkirimemail = $this->m_login->kirimemail($email, $nama);
+            var_dump($lkirimemail);
+            // if ($lkirimemail) {
 
-            $lkirimemail = $this->login_model->kirimemail($from_email, $from_nama, $passwordemail, $email, $namaperusahaan, $encrypted_id, $kode_referal);
-            // echo($namaperusahaan);
-            // exit();
+            //     $data = array(
+            //         'nama' => $nama,
+            //         'email' => $email,
+            //         'hp' => $hp,
+            //         'password' => $password,
+            //         'privasi' => $privasi,
+            //     );
 
-            if ($lkirimemail) {
-                $idperusahaan = $this->db->query("SELECT create_idperusahaan('" . $tglregistrasi . "') as idperusahaan")->getRow()->idperusahaan;
+            //     $simpan = $this->m_login->simpanregistrasi($data);
+            //     if ($simpan) {
+            //         $pesan = '<div class="alert alert-success">Buka email anda untuk aktivasi. <br>Atau Cek folder <b>SPAM</b></div>';
+            //         $this->session->setFlashdata('pesan', $pesan);
+            //         return redirect()->to('login');
+            //         exit();
+            //     } else {
 
-                $data = array(
-                    'idperusahaan' => $idperusahaan,
-                    'namaperusahaan' => $namaperusahaan,
-                    'tglmulaiusaha' => $tglmulaiusaha,
-                    'email' => $email,
-                    'username' => $username,
-                    'password' => $password,
-                    'tglregistrasi' => $tglregistrasi,
-                    'tglberakhir' => $tglberakhir,
-                    'statusaktif' => '1',
-                    'encryptkey' => $encrypted_id,
-                    'statusverif' => '0',
-                    'kode_referal' => $kode_referal == '' ? null : $kode_referal,
-                );
-
-                $simpan = $this->login_model->simpanregistrasi($data);
-                if ($simpan) {
-                    $pesan = '<div class="alert alert-success">Buka email anda untuk aktivasi. <br>Atau Cek folder <b>SPAM</b></div>';
-                    $this->session->setFlashdata('pesan', $pesan);
-                    return redirect()->to('Login');
-                    exit();
-                } else {
-
-                    $eror = $this->db->error();
-                    $pesan = '<div class="alert alert-danger">Gagal registrasi<br>
-					                Alasan : ' . $eror['code'] . ' ' . $eror['message'] . '
-					          </div>';
-                    $this->session->setFlashdata('pesan', $pesan);
-                    return redirect()->to('Login/registrasi');
-                    exit();
-                }
-            } else {
-                $pesan = '<div class="alert alert-danger">Gagal kirim email aktivasi.</div>';
-                $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('Login/registrasi');
-                exit();
-            }
+            //         $eror = $this->db->error();
+            //         $pesan = '<div class="alert alert-danger">Gagal registrasi<br>
+            // 		                Alasan : ' . $eror['code'] . ' ' . $eror['message'] . '
+            // 		          </div>';
+            //         $this->session->setFlashdata('pesan', $pesan);
+            //         return redirect()->to('registrasi');
+            //         exit();
+            //     }
+            // } else {
+            //     $pesan = '<div class="alert alert-danger">Gagal kirim email aktivasi.</div>';
+            //     $this->session->setFlashdata('pesan', $pesan);
+            //     return redirect()->to('registrasi');
+            //     exit();
+            // }
         }
     }
 
 
-    public function verifikasi($hash = NULL, $kode_referal = null)
+
+
+    public function verifikasi($email)
     {
         $data = array(
-            'statusverif' => '1'
+            'verifikasi_email' => '1'
         );
 
 
-        $cekverif = $this->db->query("select count(*) as jlh from perusahaan where encryptkey='" . $hash . "' and statusverif='1'")->getRow()->jlh;
+        $cekverif = $this->db->query("select count(*) as jlh from users where email='" . $email . "' and verifikasi_email='1'")->getRow()->jlh;
         if ($cekverif > 0) {
             $pesan = '<div class="alert alert-danger">Email sudah di aktivasi.</div>';
             $this->session->setFlashdata('pesan', $pesan);
-            return redirect()->to('Login');
+            return redirect()->to('login');
             exit();
         }
 
-        $update = $this->login_model->verifikasi_email($hash, $data, $kode_referal);
-        if ($update > 0) {
+        $update = $this->m_login->verifikasi_email($email, $data);
+        if ($update) {
             $pesan = '<div class="alert alert-success">Berhasil di aktivasi</div>';
             $this->session->setFlashdata('pesan', $pesan);
-            return redirect()->to('Login');
+            return redirect()->to('login');
         } else {
             $pesan = '<div class="alert alert-danger">Gagal di aktivasi</div>';
             $this->session->setFlashdata('pesan', $pesan);
-            return redirect()->to('Login');
+            return redirect()->to('login');
         }
     }
 
+    public function lupapassword()
+    {
+        return view('admin/login/lupapassword');
+    }
     public function kirimresetpassword()
     {
 
@@ -184,30 +168,30 @@ class Login extends BaseController
         $from_nama = 'AKUNTANMU';
         $passwordemail = 'Akuntanmu123@#';
         $password_reset = $this->generateRandomString(10);
-        $lkirimemail = $this->login_model->kirimresetpassword($from_email, $from_nama, $passwordemail, $email, $password_reset);
+        $lkirimemail = $this->m_login->kirimresetpassword($from_email, $from_nama, $passwordemail, $email, $password_reset);
 
         if ($lkirimemail) {
             $data = array(
                 'password' => md5($password_reset),
             );
 
-            $simpan = $this->login_model->simpanresetpassword($data, $email);
+            $simpan = $this->m_login->simpanresetpassword($data, $email);
             if ($simpan) {
                 $pesan = '<div class="alert alert-success">Reset password dikirim ke email <br>Atau Cek folder <b>SPAM</b>
 		       			</div>';
                 $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('Login');
+                return redirect()->to('login');
                 exit();
             } else {
                 $pesan = 'error';
                 $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('Login/lupapassword');
+                return redirect()->to('login/lupapassword');
                 exit();
             }
         } else {
             $pesan = '<div class="alert alert-danger">Gagal reset password.</div>';
             $this->session->setFlashdata('pesan', $pesan);
-            return redirect()->to('Login/lupapassword');
+            return redirect()->to('login/lupapassword');
             exit();
         }
     }

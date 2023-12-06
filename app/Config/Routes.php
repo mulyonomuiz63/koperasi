@@ -34,6 +34,13 @@ $routes->get('/', 'Front\Landing::index');
 
 
 // $routes->get('home', 'Home::index');
+$routes->get('registrasi', 'Admin\Login::registrasi', ['filter' => 'guestFilter']);
+$routes->post('simpanRegistrasi', 'Admin\Login::simpanRegistrasi', ['filter' => 'guestFilter']);
+$routes->get('verifikasi/(:any)', 'Admin\Login::verifikasi/$1', ['filter' => 'guestFilter']);
+
+$routes->get('lupapassword', 'Admin\Login::lupapassword', ['filter' => 'guestFilter']);
+
+
 $routes->get('login', 'Admin\Login::index', ['filter' => 'guestFilter']);
 $routes->get('keluar', 'Admin\Login::keluar', ['filter' => 'authFilter']);
 $routes->post('login/cek_login', 'Admin\Login::cek_login', ['filter' => 'guestFilter']);
