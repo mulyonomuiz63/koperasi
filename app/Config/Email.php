@@ -41,7 +41,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPHost = 'mail.kmpsmart.co.id';
+    public $SMTPHost = 'smtp.kmpsmart.co.id';
     /**
      * SMTP Username
      *
