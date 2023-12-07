@@ -146,6 +146,7 @@ $url = $uris->getSegment(1);
                                                     <td><?= $total; ?></td>
                                                     <td>Rp. <?= number_format(($produk->harga * (100 - $total)) / 100); ?> /Kg</td>
                                                     <input type="hidden" name="harga_final" class="form-control" value="<?= (($produk->harga * (100 - $total)) / 100) ?>">
+                                                    <input type="hidden" name="randemen" class="form-control" value="<?= $total ?>">
                                                 </tr>
                                             </tbody>
                                         </table>

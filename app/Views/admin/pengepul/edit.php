@@ -101,7 +101,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <small for="">No.rek</small>
-                                <input type="text" id="norek" name="norek" class="form-control" value="<?= $pengepul->norek; ?>" onkeypress="return hanyaAngka(event)" autocomplete="off">
+                                <input type="text" id="norek" name="norek" class="form-control" value="<?= $pengepul->norek != '0' ? $pengepul->norek : ''; ?>" onkeypress="return hanyaAngka(event)" autocomplete="off">
                             </div>
                         </div>
 
@@ -114,7 +114,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <small>NIK</small>
-                                <input class="form-control" type="number" maxlength="16" id="nik" name="nik" value="<?= $pengepul->nik; ?>" autocomplete="off">
+                                <input class="form-control" type="text" onkeypress="return hanyaAngka(event)" maxlength="16" id="nik" name="nik" value="<?= $pengepul->nik != '0' ? $pengepul->nik : ''; ?>" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -231,6 +231,21 @@
                         },
                     }
                 },
+                <?php if ($pengepul->foto_ktp == '') { ?>
+                    foto_ktp: {
+                        validators: {
+                            file: {
+                                extension: 'jpeg,png, jpg',
+                                type: 'image/jpeg,image/jpg,image/png',
+                                maxSize: 2048 * 1024, // 2 MB
+                                message: 'Tidak Sesuai Format'
+                            },
+                            notEmpty: {
+                                message: 'Foto KTP tidak boleh kosong'
+                            },
+                        },
+                    }
+                <?php } ?>
             }
         });
     })
@@ -253,14 +268,15 @@
 
     $("#idprovinsi").change(function() {
         var url = "<?php echo site_url('pengepul/add_ajax_kota'); ?>/" + $(this).val();
+        console.log($(this).val())
         $('#idkota').load(url);
         return false;
-    })
+    });
     $("#idkota").change(function() {
         var url = "<?php echo site_url('pengepul/add_ajax_kecamatan'); ?>/" + $(this).val();
         $('#idkecamatan').load(url);
         return false;
-    })
+    });
     $("#idkecamatan").change(function() {
         var url = "<?php echo site_url('pengepul/add_ajax_kelurahan'); ?>/" + $(this).val();
         $('#idkelurahan').load(url).on('change', function(e) {

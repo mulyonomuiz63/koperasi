@@ -59,6 +59,11 @@ class AuthFilter implements FilterInterface
         $uris = service('uri');
         $url = $uris->getSegment(1);
         $total = $uris->getTotalSegments();
+        if (session()->get('status') != '1') {
+            if ($url != 'pengepul') {
+                return redirect()->to('pengepul/edit/' . encode(session()->get('iduser')));
+            }
+        }
         if ($total == 1) {
             if (!lihat(session()->get('iduser'), "$url")) {
                 return redirect()->to('dashboard');

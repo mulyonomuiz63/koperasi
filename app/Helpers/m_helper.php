@@ -78,7 +78,7 @@ if (!function_exists('roleAksesMenu')) {
     function roleAksesMenu($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT d.nama as nama_user, b.role, c.menu, a.lihat, a.tambah, a.ubah, a.hapus FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu IN $menu GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT d.nama as nama_user, b.role, c.menu, a.lihat, a.tambah, a.ubah, a.hapus FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu IN $menu GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getResult();
@@ -100,7 +100,7 @@ if (!function_exists('roleAkses')) {
     function roleAkses($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT d.nama as nama_user, b.role, c.menu, a.lihat, a.tambah, a.ubah, a.hapus FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu ='$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT d.nama as nama_user, b.role, c.menu, a.lihat, a.tambah, a.ubah, a.hapus FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu ='$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();
@@ -145,7 +145,7 @@ if (!function_exists('lihat')) {
     function lihat($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT a.lihat FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT a.lihat FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();
@@ -167,7 +167,7 @@ if (!function_exists('tambah')) {
     function tambah($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT a.tambah FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT a.tambah FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();
@@ -189,7 +189,7 @@ if (!function_exists('ubah')) {
     function ubah($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT a.ubah FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT a.ubah FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();
@@ -211,7 +211,7 @@ if (!function_exists('hapus')) {
     function hapus($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT a.hapus FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT a.hapus FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();
@@ -233,7 +233,7 @@ if (!function_exists('aprove')) {
     function aprove($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT a.aprove FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT a.aprove FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();
@@ -256,7 +256,7 @@ if (!function_exists('cetak')) {
     function cetak($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT a.cetak FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT a.cetak FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();
@@ -279,7 +279,7 @@ if (!function_exists('export')) {
     function export($id, $menu)
     {
         $db = \Config\Database::connect();
-        $sql = "SELECT a.export FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join user d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
+        $sql = "SELECT a.export FROM menu_role a JOIN role b on a.idrole=b.idrole JOIN menu c on a.idmenu=c.idmenu join users d on b.idrole=d.idrole where a.deleted_at is null and d.iduser ='$id' and c.menu = '$menu' GROUP BY a.idmenurole ORDER by d.nama ASC";
 
         $query = $db->query($sql);
         $row = $query->getRow();

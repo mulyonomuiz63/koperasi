@@ -1,9 +1,22 @@
 <?php
 $db = \Config\Database::connect();
-if (session()->get('idrole') == '3') {
-	$user = $db->table('pengepul')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+if (session()->get('status') == '1') {
+	if (session()->get('idrole') == '3') {
+		$user = $db->table('pengepul')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+		$nama 		= $user->nama;
+		$jabatan 	= '';
+		$foto 		= $user->foto;
+	} else {
+		$user = $db->table('karyawan')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+		$nama 		= $user->nama;
+		$jabatan 	= $user->jabatan;
+		$foto 		= $user->foto;
+	}
 } else {
-	$user = $db->table('karyawan')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+	$user = $db->table('re_user')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+	$nama 		= $user->nama;
+	$jabatan 	= '';
+	$foto 		= 'defaul.jpg';
 }
 ?>
 <!-- begin::User Panel-->
@@ -29,18 +42,18 @@ if (session()->get('idrole') == '3') {
 		<div class="d-flex align-items-center mt-5">
 			<div class="symbol symbol-100 mr-5">
 				<?php if (session()->get('idrole') == '3') { ?>
-					<div class="symbol-label" style="background-image:url('<?= base_url('uploads/pengepul/thumbnails/' . isset($user->foto) ? $user->foto : '') ?>')"></div>
+					<div class="symbol-label" style="background-image:url('<?= base_url('uploads/pengepul/thumbnails/' . $foto) ?>')"></div>
 				<?php } else { ?>
-					<div class="symbol-label" style="background-image:url('<?= base_url('uploads/karyawan/thumbnails/' . isset($user->foto) ? $user->foto : '') ?>')"></div>
+					<div class="symbol-label" style="background-image:url('<?= base_url('uploads/karyawan/thumbnails/' . $foto) ?>')"></div>
 				<?php } ?>
 				<i class="symbol-badge bg-success"></i>
 			</div>
 			<div class="d-flex flex-column">
 				<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-					<?= $user->nama ?>
+					<?= $nama ?>
 				</a>
 				<div class="text-muted mt-1">
-					<?= session()->get('idrole') != '3' ? $user->jabatan : '' ?>
+					<?= session()->get('idrole') != '3' ? $jabatan : '' ?>
 				</div>
 				<div class="navi mt-2">
 					<a href="#" class="navi-item">

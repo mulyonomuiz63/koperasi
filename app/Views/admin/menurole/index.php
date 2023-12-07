@@ -16,7 +16,7 @@
         <!--begin::Card-->
         <div class="card card-custom">
             <?= $this->include('tools/tombolTambah'); ?>
-            < class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 50vh;padding:10px 20px">
+            <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; max-height: 50vh;padding:10px 20px">
                 <!--begin: Datatable-->
                 <table class="table table-separate table-head-custom table-checkable dataTable no-footer" id="table" role="grid" aria-describedby="kt_datatable1_info" style="width: 100%;">
                     <thead>
@@ -37,9 +37,9 @@
 
                     </tbody>
                 </table>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <?= $this->endSection() ?>

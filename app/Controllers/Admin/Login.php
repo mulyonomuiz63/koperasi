@@ -31,16 +31,31 @@ class Login extends BaseController
                 $kirim = $this->m_login->cek_login($email, md5($password));
                 $result = $kirim->getRow();
                 if ($kirim->getNumRows() > 0) {
-                    $data = array(
-                        'iduser' => $result->iduser,
-                        'nama' => $result->nama,
-                        'email' => $result->email,
-                        'idrole' => $result->idrole,
-                        'isLoggedIn' => TRUE
-                    );
+                    if ($result->status == '1') {
+                        $data = array(
+                            'iduser' => $result->iduser,
+                            'nama' => $result->nama,
+                            'email' => $result->email,
+                            'idrole' => $result->idrole,
+                            'isLoggedIn' => TRUE,
+                            'status' => $result->status
+                        );
 
-                    $this->session->set($data);
-                    return redirect()->to('dashboard');
+                        $this->session->set($data);
+                        return redirect()->to('dashboard');
+                    } else {
+                        $data = array(
+                            'iduser' => $result->iduser,
+                            'nama' => $result->nama,
+                            'email' => $result->email,
+                            'idrole' => $result->idrole,
+                            'isLoggedIn' => TRUE,
+                            'status' => $result->status
+                        );
+
+                        $this->session->set($data);
+                        return redirect()->to('pengepul/edit/' . encode(session()->get('iduser')));
+                    }
                 } else {
                     $pesan = '<div class="alert alert-danger">email atau password anda salah </div>';
                     $this->session->setFlashdata('pesan', $pesan);
@@ -89,34 +104,35 @@ class Login extends BaseController
             }
         } else {
 
-            $lkirimemail = $this->m_login->kirimemail($email, $nama);
-            var_dump($lkirimemail);
+            // $lkirimemail = $this->m_login->kirimemail($email, $nama);
             // if ($lkirimemail) {
 
-            //     $data = array(
-            //         'nama' => $nama,
-            //         'email' => $email,
-            //         'hp' => $hp,
-            //         'password' => $password,
-            //         'privasi' => $privasi,
-            //     );
+            $data = array(
+                'idrole' => 3,
+                'nama' => $nama,
+                'email' => $email,
+                'hp' => $hp,
+                'password' => $password,
+                'privasi' => $privasi,
+            );
 
-            //     $simpan = $this->m_login->simpanregistrasi($data);
-            //     if ($simpan) {
-            //         $pesan = '<div class="alert alert-success">Buka email anda untuk aktivasi. <br>Atau Cek folder <b>SPAM</b></div>';
-            //         $this->session->setFlashdata('pesan', $pesan);
-            //         return redirect()->to('login');
-            //         exit();
-            //     } else {
+            $simpan = $this->m_login->simpanregistrasi($data, $nama);
 
-            //         $eror = $this->db->error();
-            //         $pesan = '<div class="alert alert-danger">Gagal registrasi<br>
-            // 		                Alasan : ' . $eror['code'] . ' ' . $eror['message'] . '
-            // 		          </div>';
-            //         $this->session->setFlashdata('pesan', $pesan);
-            //         return redirect()->to('registrasi');
-            //         exit();
-            //     }
+            if ($simpan) {
+                $pesan = '<div class="alert alert-success">Buka email anda untuk aktivasi. <br>Atau Cek folder <b>SPAM</b></div>';
+                $this->session->setFlashdata('pesan', $pesan);
+                return redirect()->to('login');
+                exit();
+            } else {
+
+                $eror = $this->db->error();
+                $pesan = '<div class="alert alert-danger">Gagal registrasi<br>
+            		                Alasan : ' . $eror['code'] . ' ' . $eror['message'] . '
+            		          </div>';
+                $this->session->setFlashdata('pesan', $pesan);
+                return redirect()->to('registrasi');
+                exit();
+            }
             // } else {
             //     $pesan = '<div class="alert alert-danger">Gagal kirim email aktivasi.</div>';
             //     $this->session->setFlashdata('pesan', $pesan);

@@ -85,7 +85,7 @@ class Produk extends BaseController
         $idkomoditi     = $this->request->getPost('idkomoditi');
         $qty            = $this->request->getPost('qty');
         $harga          = str_replace(".", "", $this->request->getPost('harga'));
-        $harga_final    = str_replace(".", "", $this->request->getPost('harga_final'));
+        $harga_final    =  $this->request->getPost('harga_final');
         $status         = 'N1';
         $ltambah        = $this->request->getPost('ltambah');
 
@@ -218,7 +218,7 @@ class Produk extends BaseController
             'idproduk'          => $idproduk,
             'idqreport'         =>  $idqreport,
             'persen'            => $kualitas,
-            'nilai_pembulat'    => "$kualitas $penjumlah1 $pembulat1 $penjumlah2 $pembulat2",
+            'nilai_pembulat'    => "($kualitas $penjumlah1 $pembulat1) $penjumlah2 $pembulat2",
             'total'             => $total,
         );
 
@@ -295,10 +295,14 @@ class Produk extends BaseController
     {
 
         $id     =  $this->request->getPost('idproduk');
+        $total  =  $this->request->getPost('randemen');
+
         $harga  = str_replace(".", "", $this->request->getPost('harga'));
+        $harga_final = ($harga * (100 - $total)) / 100;
         $data = array(
-            'status'     => $this->request->getPost('aprove'),
-            'harga'     => $harga,
+            'status'        => $this->request->getPost('aprove'),
+            'harga'         => $harga,
+            'harga_final'   => $harga_final,
         );
 
         $simpan = $this->m_produk->aprove($data, $id);

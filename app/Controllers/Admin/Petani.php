@@ -122,9 +122,11 @@ class Petani extends BaseController
                         ->resize(480, 480, true)
                         ->save($thumbnail_path . '/' . $lok_gambar);
 
-                    if (file_exists('./uploads/lokasi/' . $lok_gambar)) {
-                        unlink('./uploads/lokasi/' . $lok_gambar);
-                    };
+                    if ($lok_gambar != '') {
+                        if (file_exists('./uploads/lokasi/' . $lok_gambar)) {
+                            unlink('./uploads/lokasi/' . $lok_gambar);
+                        };
+                    }
                 }
 
                 if ($sertifikasi == '1') {
@@ -138,9 +140,11 @@ class Petani extends BaseController
                                 ->resize(480, 480, true)
                                 ->save($thumbnail_path . '/' . $sert_gambar);
 
-                            if (file_exists('./uploads/sertifikasi/' . $sert_gambar)) {
-                                unlink('./uploads/sertifikasi/' . $sert_gambar);
-                            };
+                            if ($sert_gambar != '') {
+                                if (file_exists('./uploads/sertifikasi/' . $sert_gambar)) {
+                                    unlink('./uploads/sertifikasi/' . $sert_gambar);
+                                };
+                            }
                         }
                     } else {
                         $sert_gambar = '';
@@ -190,13 +194,17 @@ class Petani extends BaseController
                             ->resize(480, 480, true)
                             ->save($thumbnail_path . '/' . $lok_gambar);
 
-                        if (file_exists('./uploads/lokasi/' . $lok_gambar)) {
-                            unlink('./uploads/lokasi/' . $lok_gambar);
-                        };
+                        if ($lok_gambar != '') {
+                            if (file_exists('./uploads/lokasi/' . $lok_gambar)) {
+                                unlink('./uploads/lokasi/' . $lok_gambar);
+                            };
+                        }
                         //untukmenghapus gambar di direktori gambar ketika gambar di update
-                        if (file_exists('./uploads/lokasi/thumbnails/' . $lokasi_gambar_lama)) {
-                            unlink('./uploads/lokasi/thumbnails/' . $lokasi_gambar_lama);
-                        };
+                        if ($lokasi_gambar_lama != '') {
+                            if (file_exists('./uploads/lokasi/thumbnails/' . $lokasi_gambar_lama)) {
+                                unlink('./uploads/lokasi/thumbnails/' . $lokasi_gambar_lama);
+                            };
+                        }
                     }
                 } else {
                     $lok_gambar = $lokasi_gambar_lama;
@@ -219,13 +227,17 @@ class Petani extends BaseController
                             ->resize(480, 480, true)
                             ->save($thumbnail_path . '/' . $sert_gambar);
 
-                        if (file_exists('./uploads/sertifikasi/' . $sert_gambar)) {
-                            unlink('./uploads/sertifikasi/' . $sert_gambar);
-                        };
+                        if ($sert_gambar != '') {
+                            if (file_exists('./uploads/sertifikasi/' . $sert_gambar)) {
+                                unlink('./uploads/sertifikasi/' . $sert_gambar);
+                            };
+                        }
                         //untukmenghapus gambar di direktori gambar ketika gambar di update
-                        if (file_exists('./uploads/sertifikasi/thumbnails/' . $sertifikasi_gambar_lama)) {
-                            unlink('./uploads/sertifikasi/thumbnails/' . $sertifikasi_gambar_lama);
-                        };
+                        if ($sertifikasi_gambar_lama != '') {
+                            if (file_exists('./uploads/sertifikasi/thumbnails/' . $sertifikasi_gambar_lama)) {
+                                unlink('./uploads/sertifikasi/thumbnails/' . $sertifikasi_gambar_lama);
+                            };
+                        }
                     }
                 } else {
                     $sert_gambar = $sertifikasi_gambar_lama;

@@ -24,7 +24,7 @@ class M_pengepul extends Model
     {
         $this->builder = $this->db->table('pengepul a');
         $this->builder->select('a.*, b.email, b.hp');
-        $this->builder->join('user b', 'a.iduser=b.iduser');
+        $this->builder->join('users b', 'a.iduser=b.iduser');
         if (session()->get('idrole') == '3') {
             $this->builder->where('a.iduser', session()->get('iduser'));
         }
@@ -73,8 +73,10 @@ class M_pengepul extends Model
     {
         $this->db->transBegin();
 
+        //update data di table pengepul
         $builder = $this->db->table($this->tabel);
         $builder->insert($data);
+
         if ($this->db->transStatus() === FALSE) {
             $this->db->transRollback();
             return false;
@@ -88,12 +90,13 @@ class M_pengepul extends Model
     {
         $this->builder = $this->db->table('pengepul a');
         $this->builder->select('a.*, b.email, b.hp, c.idkelurahan, d.idkecamatan, e.idkota, f.idprovinsi');
-        $this->builder->join('user b', 'a.iduser=b.iduser');
-        $this->builder->join('kelurahan c', 'a.idkelurahan=c.idkelurahan');
-        $this->builder->join('kecamatan d', 'c.idkecamatan=d.idkecamatan');
-        $this->builder->join('kota e', 'd.idkota=e.idkota');
-        $this->builder->join('provinsi f', 'e.idprovinsi=f.idprovinsi');
+        $this->builder->join('users b', 'a.iduser=b.iduser');
+        $this->builder->join('kelurahan c', 'a.idkelurahan=c.idkelurahan', 'left');
+        $this->builder->join('kecamatan d', 'c.idkecamatan=d.idkecamatan', 'left');
+        $this->builder->join('kota e', 'd.idkota=e.idkota', 'left');
+        $this->builder->join('provinsi f', 'e.idprovinsi=f.idprovinsi', 'left');
         $this->builder->where('a.idpengepul', $id);
+        $this->builder->orWhere('a.iduser', $id);
         return $this->builder->get();
     }
 
@@ -105,6 +108,40 @@ class M_pengepul extends Model
         $builder = $this->db->table($this->tabel);
         $builder->where('idpengepul', $pengepul);
         $builder->update($data);
+
+        //proses insert data di table user
+        $user = $this->db->table('re_user')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+        $dataUser = array(
+            'iduser' => $user->iduser,
+            'idrole' => $user->idrole,
+            'nama' => $user->nama,
+            'email' => $user->email,
+            'hp' => $user->hp,
+            'verifikasi_email' => '1',
+            'status' => '1',
+            'password' => $user->password,
+            'privasi' => $user->privasi,
+        );
+        $builder1 = $this->db->table('user');
+        $builder1->insert($dataUser);
+
+        //delete data di table re_user
+        $builder2 = $this->db->table('re_user');
+        $builder2->where('iduser', $user->iduser);
+        $builder2->delete();
+
+        $result = $this->db->table('users')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+
+        $data = array(
+            'iduser' => $result->iduser,
+            'nama' => $result->nama,
+            'email' => $result->email,
+            'idrole' => $result->idrole,
+            'isLoggedIn' => TRUE,
+            'status' => $result->status
+        );
+
+        session()->set($data);
         if ($this->db->transStatus() === FALSE) {
             $this->db->transRollback();
             return false;
@@ -131,7 +168,7 @@ class M_pengepul extends Model
 
     function cek_email($email)
     {
-        $this->builder = $this->db->table('user');
+        $this->builder = $this->db->table('users');
         $this->builder->select('count(*) as jlh');
         $this->builder->where('email', $email);
 
@@ -141,7 +178,7 @@ class M_pengepul extends Model
 
     function cek_hp($hp)
     {
-        $this->builder = $this->db->table('user');
+        $this->builder = $this->db->table('users');
         $this->builder->select('count(*) as jlh');
         $this->builder->where('hp', $hp);
 

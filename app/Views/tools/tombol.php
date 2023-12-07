@@ -15,7 +15,7 @@ if (isset($status)) {
 
 <!-- untuk tombol simpan -->
 <?= $this->section('simpan') ?>
-<?php if (tambah(session()->get('iduser'), "$url")) : ?>
+<?php if (tambah(session()->get('iduser'), "$url") or ubah(session()->get('iduser'), "$url")) : ?>
     <?php if ($url != 'produk') : ?>
         <button type="submit" id="simpan" class="btn btn-success" data-toggle="tooltip" data-theme="dark" title="Simpan"><i class="fa fa-save text-white"></i></button>
     <?php endif; ?>

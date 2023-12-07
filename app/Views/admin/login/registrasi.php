@@ -17,10 +17,11 @@
              <input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="text" placeholder="hp" name="hp" onkeypress="return hanyaAngka(event)" autocomplete="off" />
          </div>
          <div class="form-group py-2 m-0 border-top">
-             <input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="password" placeholder="Password" name="password" />
+             <input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="password" placeholder="Password" name="password" id="password" onkeyup='cek_password_new()' />
          </div>
          <div class="form-group py-2 m-0 border-top">
-             <input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="password" placeholder="Confirm Password" name="cpassword" />
+             <input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" onkeyup='cek_password()' />
+             <span id='conf_pass'></span>
          </div>
          <div class="form-group mt-5">
              <div class="checkbox-inline">
@@ -31,7 +32,7 @@
              </div>
          </div>
          <div class="form-group d-flex flex-wrap flex-center">
-             <button type="submit" class="btn btn-primary btn-pill font-weight-bold px-9 py-4 my-3 mx-2">Daftar</button>
+             <button type="submit" id="button" class="btn btn-primary btn-pill font-weight-bold px-9 py-4 my-3 mx-2">Daftar</button>
              <a href="<?= base_url('login'); ?>" class="btn btn-outline-primary btn-pill font-weight-bold px-9 py-4 my-3 mx-2">Kembali</a>
          </div>
      </form>
@@ -100,5 +101,37 @@
              },
          },
      });
+
+     function cek_password() {
+         var password = $("#password").val();
+         var confirmPassword = $("#cpassword").val();
+         if (password != confirmPassword) {
+             $("#conf_pass").css("color", "#fc5d32");
+             $('#conf_pass').html('Sandi tidak sama');
+             $('#button').prop('disabled', true);
+         } else {
+             $('#conf_pass').html('');
+             $('#button').prop('disabled', false);
+         }
+         return true;
+     };
+
+     function cek_password_new() {
+         var password = $("#password").val();
+         var confirmPassword = $("#cpassword").val();
+         if (confirmPassword == "") {
+             $('#button').prop('disabled', true);
+         } else {
+             if (password != confirmPassword) {
+                 $("#conf_pass").css("color", "#fc5d32");
+                 $('#conf_pass').html('Sandi tidak sama');
+                 $('#button').prop('disabled', true);
+             } else {
+                 $('#conf_pass').html('');
+                 $('#button').prop('disabled', false);
+             }
+         }
+         return true;
+     };
  </script>
  <?= $this->endSection() ?>

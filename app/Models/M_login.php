@@ -9,7 +9,7 @@ class M_login extends Model
 
     public function cek_login($username, $password)
     {
-        $query = "select * from user where (email='" . $username . "' and password='" . $password . "') or (email='" . $username . "' and password='" . $password . "')";
+        $query = "select * from users where (email='" . $username . "' and password='" . $password . "') and verifikasi_email = '1'";
         return $this->db->query($query);
     }
 
@@ -20,10 +20,31 @@ class M_login extends Model
     }
 
 
-    public function simpanregistrasi($data)
+    public function simpanregistrasi($data, $nama)
     {
+
+        $this->db->transBegin();
         $builder = $this->db->table('re_user');
-        return $builder->insert($data);
+        $builder->insert($data);
+
+
+        $dataPengepul = array(
+            'iduser' =>  $this->db->insertID(),
+            'nama' => $nama,
+            'tgl_lahir' => date("Y-d-m"),
+            'foto' => 'defaul.jpg',
+        );
+
+        $builder2 = $this->db->table('pengepul');
+        $builder2->insert($dataPengepul);
+
+        if ($this->db->transStatus() === FALSE) {
+            $this->db->transRollback();
+            return false;
+        } else {
+            $this->db->transCommit();
+            return true;
+        }
     }
 
     public function kirimemail($email, $nama)

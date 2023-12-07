@@ -59,7 +59,6 @@ class Pengepul extends BaseController
 
         $ltambah        = $this->request->getPost('ltambah');
         $idpengepul         = $this->request->getPost('idpengepul');
-        $iduser    = $this->request->getPost('iduser');
         $idkelurahan    = $this->request->getPost('idkelurahan');
         $nama         = $this->request->getPost('nama');
         $tempat_lahir         = $this->request->getPost('tempat_lahir');
@@ -73,17 +72,7 @@ class Pengepul extends BaseController
         $fotoktplama         = $this->request->getPost('foto_ktp_lama');
 
         if ($ltambah == 'tambah') { // ini kondisi jika tambah data 
-
-
             $image = $fotoktp->getRandomName();
-            // thumnail foto_ktp path
-            // $tmp = $fotoktp->getTempName();
-            // $get = get_geotag($tmp);
-            // $data = exif_read_data($tmp, 0, false);
-            // $lat = $get['lat'];
-            // $lng = $get['lng'];
-            // var_dump($data);
-
             $thumbnail_path = FCPATH . 'uploads/pengepul/thumbnails';
             $path = FCPATH . 'uploads/pengepul';
 
@@ -93,12 +82,13 @@ class Pengepul extends BaseController
                     ->resize(480, 480, true)
                     ->save($thumbnail_path . '/' . $image);
 
-                if (file_exists('./uploads/pengepul/' . $image)) {
-                    unlink('./uploads/pengepul/' . $image);
-                };
+                if ($image != '') {
+                    if (file_exists('./uploads/pengepul/' . $image)) {
+                        unlink('./uploads/pengepul/' . $image);
+                    };
+                }
             }
             $data = array(
-                'iduser'            => session()->get('iduser'),
                 'idkelurahan'       => $idkelurahan,
                 'nama'              => $nama,
                 'tempat_lahir'      => $tempat_lahir,
@@ -126,13 +116,17 @@ class Pengepul extends BaseController
                         ->resize(480, 480, true)
                         ->save($thumbnail_path . '/' . $image);
 
-                    if (file_exists('./uploads/pengepul/' . $image)) {
-                        unlink('./uploads/pengepul/' . $image);
-                    };
+                    if ($image != '') {
+                        if (file_exists('./uploads/pengepul/' . $image)) {
+                            unlink('./uploads/pengepul/' . $image);
+                        };
+                    }
                     //untukmenghapus gambar di direktori gambar ketika gambar di update
-                    if (file_exists('./uploads/pengepul/thumbnails/' . $fotoktplama)) {
-                        unlink('./uploads/pengepul/thumbnails/' . $fotoktplama);
-                    };
+                    if ($fotoktplama != '') {
+                        if (file_exists('./uploads/pengepul/thumbnails/' . $fotoktplama)) {
+                            unlink('./uploads/pengepul/thumbnails/' . $fotoktplama);
+                        };
+                    }
                 }
                 $linkfile = $image;
             } else {
