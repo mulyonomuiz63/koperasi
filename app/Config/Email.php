@@ -48,7 +48,7 @@ class Email extends BaseConfig
      * @var string
      */
     // Enter your email id from where you send email
-    public $SMTPUser = 'noreplay@kmpsmart.co.id';
+    public $SMTPUser = 'no-replay@kmpsmart.co.id';
 
     /**
      * SMTP Password
