@@ -112,6 +112,7 @@ class Login extends BaseController
                 'nama' => $nama,
                 'email' => $email,
                 'hp' => $hp,
+                'verifikasi_email' => '1',
                 'password' => $password,
                 'privasi' => $privasi,
             );
