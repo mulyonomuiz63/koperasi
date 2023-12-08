@@ -234,12 +234,7 @@
                 <?php if ($pengepul->foto_ktp == '') { ?>
                     foto_ktp: {
                         validators: {
-                            file: {
-                                extension: 'jpeg,jpg, png',
-                                type: 'image/jpeg, image/jpg, image/png',
-                                maxSize: 2048 * 1024, // 2 MB
-                                message: 'Tidak Sesuai Format'
-                            },
+
                             notEmpty: {
                                 message: 'Foto KTP tidak boleh kosong'
                             },
