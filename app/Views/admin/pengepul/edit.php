@@ -120,7 +120,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <small>Foto KTP</small>
-                                <input class="form-control" type="file" id="foto_ktp" name="foto_ktp">
+                                <input class="form-control" type="file" id="foto_ktp" name="foto_ktp" accept="image/jpeg, image/jpg, image/png">
                                 <input class="form-control border border-0" type="hidden" id="foto_ktp_lama" name="foto_ktp_lama" value="<?= $pengepul->foto_ktp; ?>">
                             </div>
                         </div>
