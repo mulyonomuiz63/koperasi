@@ -235,8 +235,8 @@
                     foto_ktp: {
                         validators: {
                             file: {
-                                extension: 'jpeg,png, jpg',
-                                type: 'image/jpeg,image/jpg,image/png',
+                                extension: 'jpeg, png, jpg',
+                                type: 'image/jpeg, image/png',
                                 maxSize: 2048 * 1024, // 2 MB
                                 message: 'Tidak Sesuai Format'
                             },
