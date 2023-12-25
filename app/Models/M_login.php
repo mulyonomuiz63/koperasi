@@ -20,7 +20,7 @@ class M_login extends Model
     }
 
 
-    public function simpanregistrasi($data, $nama)
+    public function simpanregistrasi($data, $nama, $email)
     {
 
         $this->db->transBegin();
@@ -38,6 +38,10 @@ class M_login extends Model
         $builder2 = $this->db->table('pengepul');
         $builder2->insert($dataPengepul);
 
+        //untuk kirim email
+        // $this->kirimemail(encode($this->db->insertID()), $nama, $email);
+
+
         if ($this->db->transStatus() === FALSE) {
             $this->db->transRollback();
             return false;
@@ -47,7 +51,7 @@ class M_login extends Model
         }
     }
 
-    public function kirimemail($email, $nama)
+    public function kirimemail($iduser, $nama, $email)
     {
         $conEmail = \Config\Services::email();
         $textemail = '				
@@ -56,7 +60,7 @@ class M_login extends Model
 					<br>Silahkan aktivasi akun anda dibawah ini.</span><br><br>
 					
 					<div style="width: 100%;">
-						<button style="background-color: #24ca4b; width: 300px; height: 50px; color: white"><a href="' . site_url("login/verifikasi/" . $email) . '" style="color: white; text-decoration: none">AKTIVASI AKUN</a></button>			
+						<button style="background-color: #24ca4b; width: 300px; height: 50px; color: white"><a href="' . site_url("verifikasi/" . $iduser) . '" style="color: white; text-decoration: none">AKTIVASI AKUN</a></button>			
 					</div><br><br>
 
 					<div style="width: 100%; font-size: 14px;">
@@ -73,7 +77,7 @@ class M_login extends Model
         //memanggil library email dan set konfigurasi untuk pengiriman email
 
         //konfigurasi pengiriman
-        $conEmail->setFrom('no-replay@kmpsmart.co.id', 'KMP Smart');
+        $conEmail->setFrom('noreplay@kmpsmart.co.id', 'KMP Smart');
         $conEmail->setTo($email);
         $conEmail->setSubject("Verifikasi Email");
         $conEmail->setMessage($textemail);
@@ -81,12 +85,12 @@ class M_login extends Model
         return $conEmail->send();
     }
 
-    public function verifikasi_email($email, $data)
+    public function verifikasi_email($iduser, $data)
     {
         $this->db->transBegin();
 
         $builder = $this->db->table('re_user');
-        $builder->where('email', $email);
+        $builder->where('iduser', $iduser);
         $builder->update($data);
 
         if ($this->db->transStatus() === FALSE) {
@@ -118,7 +122,7 @@ class M_login extends Model
 					<div style="width: 100%; font-size: 14px;">
 						<b>Best Regards,</b> 
 						<div style="width: 100%; font-size: 14px;"> 
-						TEAM AKUNTANMU.COM
+						TEAM kmpsmar.co.id
 						<br>Menara Samawa No 1106 - Jakarta Timur
 						<br>Telepon: 021-86941220 / 081380935185</div>
 						</div>
@@ -128,7 +132,7 @@ class M_login extends Model
         $config = array();
         $config['protocol'] = "smtp";
         $config['mailType'] = "html";
-        $config['SMTPHost'] = "mail.akuntanmu.com";
+        $config['SMTPHost'] = "mail.kmpsmar.co.id";
         $config['SMTPPort'] = "465";
         $config['SMTPTimeout'] = "5";
         $config['SMTPUser'] = $from_email;
@@ -153,11 +157,75 @@ class M_login extends Model
         return $this->email->send();
     }
 
-    public function simpanresetpassword($data, $email)
+    public function simpanresetpassword($data, $email, $password_reset)
     {
-        $builder = $this->db->table('user');
-        $builder->where('email', $email);
-        return $builder->update($data);
+        $this->db->transBegin();
+        $user = $this->db->table('users')->getWhere(array('email' => $email))->getRow();
+
+        if ($user->status == '1') {
+            $builder = $this->db->table('user');
+            $builder->where('email', $email);
+            $builder->update($data);
+        } else {
+            $builder = $this->db->table('re_user');
+            $builder->where('email', $email);
+            $builder->update($data);
+        }
+
+        $textemail = '				
+        			<span>Anda baru saja mereset password? <br>
+        			Silahkan login dengan password baru anda: </span><br><br>
+
+        			<div style="width: 100%;">
+        				<div style="background-color: #24ca4b; width: 300px; height: 50px; font-size: 35px; text-align:center; color: white">' . $password_reset . '</div>			
+        			</div><br><br>
+
+        			<div style="width: 100%; font-size: 14px;">
+        				<b>Best Regards,</b> 
+        				<div style="width: 100%; font-size: 14px;"> 
+        				TEAM KMPSMART.CO.ID
+        				<br>JL. PURNAWIRAWAN GG SWADAYA 9 GUNUNGTERANG, LANGKAPURA KOTA BANDAR LAMPUNG LAMPUNG</div>
+        				</div>
+        			</div>			
+        	  		';
+
+        $from_email = 'noreplay@kmpsmar.co.id';
+        $from_nama = 'KMPSMART';
+        $passwordemail = '#Bismillah18';
+        $config = array();
+        $config['protocol'] = "smtp";
+        $config['mailType'] = "html";
+        $config['SMTPHost'] = "mail.kmpsmar.co.id";
+        $config['SMTPPort'] = "587";
+        $config['SMTPTimeout'] = "5";
+        $config['SMTPUser'] = $from_email;
+        $config['SMTPPass'] = $passwordemail;
+        $config['SMTPCrypto'] = 'ssl';
+        $config['CRLF'] = "\r\n";
+        $config['newline'] = "\r\n";
+        $config['wordWrap'] = TRUE;
+
+        //memanggil library email dan set konfigurasi untuk pengiriman email
+        $this->email->initialize($config);
+
+        //$datatemplate['namaperusahaan'] = $namaperusahaan;
+        //$templateemail = $this->load->view('isiemailverifikasi', $datatemplate);
+
+        //konfigurasi pengiriman
+        $this->email->setFrom($from_email, $from_nama);
+        $this->email->setTo($email);
+        $this->email->setSubject("Reset sandi user");
+        $this->email->setMessage($textemail);
+
+        $this->email->send();
+
+        if ($this->db->transStatus() === FALSE) {
+            $this->db->transRollback();
+            return false;
+        } else {
+            $this->db->transCommit();
+            return true;
+        }
     }
 }
 

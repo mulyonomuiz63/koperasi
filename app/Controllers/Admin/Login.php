@@ -104,8 +104,7 @@ class Login extends BaseController
             }
         } else {
 
-            // $lkirimemail = $this->m_login->kirimemail($email, $nama);
-            // if ($lkirimemail) {
+
 
             $data = array(
                 'idrole' => 3,
@@ -117,7 +116,7 @@ class Login extends BaseController
                 'privasi' => $privasi,
             );
 
-            $simpan = $this->m_login->simpanregistrasi($data, $nama);
+            $simpan = $this->m_login->simpanregistrasi($data, $nama, $email);
 
             if ($simpan) {
                 $pesan = '<div class="alert alert-success">Buka email anda untuk aktivasi. <br>Atau Cek folder <b>SPAM</b></div>';
@@ -134,26 +133,21 @@ class Login extends BaseController
                 return redirect()->to('registrasi');
                 exit();
             }
-            // } else {
-            //     $pesan = '<div class="alert alert-danger">Gagal kirim email aktivasi.</div>';
-            //     $this->session->setFlashdata('pesan', $pesan);
-            //     return redirect()->to('registrasi');
-            //     exit();
-            // }
         }
     }
 
 
 
 
-    public function verifikasi($email)
+    public function verifikasi($id)
     {
+        $iduser = decode($id);
         $data = array(
             'verifikasi_email' => '1'
         );
 
 
-        $cekverif = $this->db->query("select count(*) as jlh from users where email='" . $email . "' and verifikasi_email='1'")->getRow()->jlh;
+        $cekverif = $this->db->query("select count(*) as jlh from users where iduser='" . $iduser . "' and verifikasi_email='1'")->getRow()->jlh;
         if ($cekverif > 0) {
             $pesan = '<div class="alert alert-danger">Email sudah di aktivasi.</div>';
             $this->session->setFlashdata('pesan', $pesan);
@@ -161,7 +155,7 @@ class Login extends BaseController
             exit();
         }
 
-        $update = $this->m_login->verifikasi_email($email, $data);
+        $update = $this->m_login->verifikasi_email($iduser, $data);
         if ($update) {
             $pesan = '<div class="alert alert-success">Berhasil di aktivasi</div>';
             $this->session->setFlashdata('pesan', $pesan);
@@ -177,38 +171,37 @@ class Login extends BaseController
     {
         return view('admin/login/lupapassword');
     }
-    public function kirimresetpassword()
+    public function resetPassword()
     {
 
         $email = $this->request->getPost('email');
-        $from_email = 'no-replay@akuntanmu.com';
-        $from_nama = 'AKUNTANMU';
-        $passwordemail = 'Akuntanmu123@#';
-        $password_reset = $this->generateRandomString(10);
-        $lkirimemail = $this->m_login->kirimresetpassword($from_email, $from_nama, $passwordemail, $email, $password_reset);
+        $password_new = '#KmpSMART18';
 
-        if ($lkirimemail) {
-            $data = array(
-                'password' => md5($password_reset),
-            );
+        $data = array(
+            'password' => md5($password_new),
+        );
+        $user = $this->db->table('users')->getWhere(array('email' => $email))->getRow();
 
-            $simpan = $this->m_login->simpanresetpassword($data, $email);
+        if (isset($user)) {
+            $simpan = $this->m_login->simpanresetpassword($data, $email, $password_new);
             if ($simpan) {
-                $pesan = '<div class="alert alert-success">Reset password dikirim ke email <br>Atau Cek folder <b>SPAM</b>
+                $pesan = '<div class="alert alert-success">Reset sandi berhasil dikirim ke email <br>Atau Cek folder <b>SPAM</b>
 		       			</div>';
                 $this->session->setFlashdata('pesan', $pesan);
                 return redirect()->to('login');
                 exit();
             } else {
-                $pesan = 'error';
+                $pesan = '<div class="alert alert-danger">Reset sandi gagalcoba lagi
+		       			</div>';
                 $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('login/lupapassword');
+                return redirect()->to('lupapassword');
                 exit();
             }
         } else {
-            $pesan = '<div class="alert alert-danger">Gagal reset password.</div>';
+            $pesan = '<div class="alert alert-danger">email yang dimasukan tidak ditemukan
+		       			</div>';
             $this->session->setFlashdata('pesan', $pesan);
-            return redirect()->to('login/lupapassword');
+            return redirect()->to('lupapassword');
             exit();
         }
     }

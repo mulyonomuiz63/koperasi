@@ -39,6 +39,7 @@ $routes->post('simpanRegistrasi', 'Admin\Login::simpanRegistrasi', ['filter' => 
 $routes->get('verifikasi/(:any)', 'Admin\Login::verifikasi/$1', ['filter' => 'guestFilter']);
 
 $routes->get('lupapassword', 'Admin\Login::lupapassword', ['filter' => 'guestFilter']);
+$routes->post('resetPassword', 'Admin\Login::resetPassword', ['filter' => 'guestFilter']);
 
 
 $routes->get('login', 'Admin\Login::index', ['filter' => 'guestFilter']);

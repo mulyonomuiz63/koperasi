@@ -14,7 +14,7 @@
              <input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="Password" placeholder="Password" name="password" value="" />
          </div>
          <div class="form-group d-flex flex-wrap justify-content-between align-items-center mt-5">
-             <a href="javascript:;" id="kt_login_forgot" class="text-muted text-hover-primary font-weight-bold">Forget Password ?</a>
+             <a href="<?php echo base_url('lupapassword') ?>" id="kt_login_forgot" class="text-muted text-hover-primary font-weight-bold">Lupa sandi ?</a>
          </div>
          <div class="text-center mt-15">
              <button type="submit" class="btn btn-primary btn-pill shadow-sm py-4 px-9 font-weight-bold">Masuk</button>
