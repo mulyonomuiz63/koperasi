@@ -22,16 +22,29 @@ class M_produk extends Model
 
     private function _get_datatables_query()
     {
+
+        $builder = $this->db->table('pengepul');
+        $builder->where('iduser', session()->get('iduser'));
+        $builder->where('deleted_at', null);
+        $data  = $builder->get()->getRow();
+
+
         $this->builder = $this->db->table('produk a');
         $this->builder->select('a.*, b.komoditi, c.nama as pengepul');
         $this->builder->join('komoditi b', 'a.idkomoditi=b.idkomoditi');
         $this->builder->join('pengepul c', 'a.idpengepul=c.idpengepul');
+        if (session()->get('idrole') == '3') {
+            $this->builder->where('a.idpengepul', $data->idpengepul);
+        } //pengepul
+
         if (session()->get('idrole') == '5') {
             $this->builder->whereIn('a.status', ['V', 'B', 'T']);
-        }
+        } // role manager keuangan
+
         if (session()->get('idrole') == '6') {
             $this->builder->where('a.status', 'N');
-        }
+        } //manager bisnis
+
         $this->builder->where('a.deleted_at', null);
         $this->builder->orderBy('a.idproduk DESC');
         $i = 0;
@@ -111,8 +124,9 @@ class M_produk extends Model
     public function get_by_id($id)
     {
         $this->builder = $this->db->table('produk a');
-        $this->builder->select('a.*, b.komoditi');
+        $this->builder->select('a.*, b.komoditi, c.nama, c.norek, c.nama_bank');
         $this->builder->join('komoditi b', 'a.idkomoditi=b.idkomoditi');
+        $this->builder->join('pengepul c', 'a.idpengepul=c.idpengepul');
         $this->builder->where('a.idproduk', $id);
         return $this->builder->get();
     }

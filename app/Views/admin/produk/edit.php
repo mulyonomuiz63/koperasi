@@ -152,6 +152,17 @@ $url = $uris->getSegment(1);
                                         </table>
 
                                         <?php if (session()->get('idrole') == '5') { ?>
+                                            <div class="row bg-primary mr-1 ml-1 text-white">
+                                                <div class="col-md-4 pt-2">
+                                                    <label for="">Atas Nama : <b><?= $produk->nama; ?></b></label>
+                                                </div>
+                                                <div class="col-md-4 pt-2">
+                                                    <label for="">Nama Bank : <b><?= $produk->nama_bank; ?></b></label>
+                                                </div>
+                                                <div class="col-md-4 pt-2">
+                                                    No Rek : <b><?= $produk->norek; ?></b>
+                                                </div>
+                                            </div>
                                             <?php if ($produk->status == 'V') { ?>
 
                                                 <div class="col-md-6 pt-2">

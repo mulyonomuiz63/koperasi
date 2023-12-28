@@ -22,9 +22,17 @@ class M_kelompok_tani extends Model
 
     private function _get_datatables_query()
     {
+
+        $builder = $this->db->table('pengepul');
+        $builder->where('iduser', session()->get('iduser'));
+        $builder->where('deleted_at', null);
+        $data  = $builder->get()->getRow();
+
+
         $this->builder = $this->db->table('kel_tani a');
         $this->builder->select('a.*, b.nama as nama_pengepul, (select sum(c.luas) from tani c where c.idkeltani =a.idkeltani) as luas , (select count(d.idtani) from tani d where d.idkeltani =a.idkeltani) as jml_tani');
         $this->builder->join('pengepul b', 'a.idpengepul=b.idpengepul');
+        $this->builder->where('a.idpengepul', $data->idpengepul);
         $this->builder->where('a.deleted_at', null);
         $i = 0;
 

@@ -70,7 +70,6 @@ class Produk extends BaseController
     public function edit($encode)
     {
         $id = decode($encode);
-        $data['pengepul'] = $this->m_produk->get_pengepul()->getRow();
         $data['komoditi'] = $this->m_produk->get_komoditi()->getResult();
         $data['produk'] = $this->m_produk->get_by_id($id)->getRow();
         $data['kualitas'] = $this->m_produk->get_kualitas()->getResult();

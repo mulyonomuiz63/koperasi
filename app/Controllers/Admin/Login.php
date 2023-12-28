@@ -181,28 +181,28 @@ class Login extends BaseController
             'password' => md5($password_new),
         );
         $user = $this->db->table('users')->getWhere(array('email' => $email))->getRow();
-
         if (isset($user)) {
             $simpan = $this->m_login->simpanresetpassword($data, $email, $password_new);
-            if ($simpan) {
-                $pesan = '<div class="alert alert-success">Reset sandi berhasil dikirim ke email <br>Atau Cek folder <b>SPAM</b>
-		       			</div>';
-                $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('login');
-                exit();
-            } else {
-                $pesan = '<div class="alert alert-danger">Reset sandi gagalcoba lagi
-		       			</div>';
-                $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('lupapassword');
-                exit();
-            }
+            var_dump($simpan);
+            //     if ($simpan) {
+            //         $pesan = '<div class="alert alert-success">Reset sandi berhasil dikirim ke email <br>Atau Cek folder <b>SPAM</b>
+            //        			</div>';
+            //         $this->session->setFlashdata('pesan', $pesan);
+            //         return redirect()->to('login');
+            //         exit();
+            //     } else {
+            //         $pesan = '<div class="alert alert-danger">Reset sandi gagalcoba lagi
+            //        			</div>';
+            //         $this->session->setFlashdata('pesan', $pesan);
+            //         return redirect()->to('lupapassword');
+            //         exit();
+            //     }
         } else {
-            $pesan = '<div class="alert alert-danger">email yang dimasukan tidak ditemukan
-		       			</div>';
-            $this->session->setFlashdata('pesan', $pesan);
-            return redirect()->to('lupapassword');
-            exit();
+            //     $pesan = '<div class="alert alert-danger">email yang dimasukan tidak ditemukan
+            //        			</div>';
+            //     $this->session->setFlashdata('pesan', $pesan);
+            //     return redirect()->to('lupapassword');
+            //     exit();
         }
     }
 
