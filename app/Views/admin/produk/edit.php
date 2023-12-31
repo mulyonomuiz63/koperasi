@@ -152,7 +152,7 @@ $url = $uris->getSegment(1);
                                         </table>
 
                                         <?php if (session()->get('idrole') == '5') { ?>
-                                            <div class="row bg-primary mr-1 ml-1 text-white">
+                                            <div class="row bg-primary mr-1 ml-1 text-white mb-2">
                                                 <div class="col-md-4 pt-2">
                                                     <label for="">Atas Nama : <b><?= $produk->nama; ?></b></label>
                                                 </div>

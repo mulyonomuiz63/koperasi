@@ -189,13 +189,13 @@ class M_login extends Model
         			</div>			
         	  		';
 
-        $from_email = 'noreplay@kmpsmar.co.id';
+        $from_email = 'api';
         $from_nama = 'KMPSMART';
-        $passwordemail = '#Bismillah18';
+        $passwordemail = 'e762785b5fd867932533f5825fe76f6c';
         $config = array();
         $config['protocol'] = "smtp";
         $config['mailType'] = "html";
-        $config['SMTPHost'] = "mail.kmpsmar.co.id";
+        $config['SMTPHost'] = "live.smtp.mailtrap.io";
         $config['SMTPPort'] = "587";
         $config['SMTPTimeout'] = "5";
         $config['SMTPUser'] = $from_email;
