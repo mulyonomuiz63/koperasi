@@ -39,7 +39,7 @@ class M_login extends Model
         $builder2->insert($dataPengepul);
 
         //untuk kirim email
-        // $this->kirimemail(encode($this->db->insertID()), $nama, $email);
+        $this->kirimemail(encode($this->db->insertID()), $nama, $email);
 
 
         if ($this->db->transStatus() === FALSE) {
@@ -73,11 +73,26 @@ class M_login extends Model
 
 
 
+        $from_email = 'noreplay@kmpsmart.co.id';
+        $passwordemail = '#Bismillah18';
+        $config = array();
+        $config['protocol'] = "smtp";
+        $config['mailType'] = "html";
+        $config['SMTPHost'] = "smtp.hostinger.com";
+        $config['SMTPPort'] = "465";
+        $config['SMTPTimeout'] = "5";
+        $config['SMTPUser'] = $from_email;
+        $config['SMTPPass'] = $passwordemail;
+        $config['SMTPCrypto'] = 'ssl';
+        $config['CRLF'] = "\r\n";
+        $config['newline'] = "\r\n";
+        $config['wordWrap'] = TRUE;
 
         //memanggil library email dan set konfigurasi untuk pengiriman email
+        $this->email->initialize($config);
 
         //konfigurasi pengiriman
-        $conEmail->setFrom('noreplay@kmpsmart.co.id', 'KMP Smart');
+        $conEmail->setFrom('noreplay@kmpsmart.co.id', 'KMPSMART');
         $conEmail->setTo($email);
         $conEmail->setSubject("Verifikasi Email");
         $conEmail->setMessage($textemail);
@@ -132,7 +147,7 @@ class M_login extends Model
         $config = array();
         $config['protocol'] = "smtp";
         $config['mailType'] = "html";
-        $config['SMTPHost'] = "mail.kmpsmar.co.id";
+        $config['SMTPHost'] = "smtp.hostinger.com";
         $config['SMTPPort'] = "465";
         $config['SMTPTimeout'] = "5";
         $config['SMTPUser'] = $from_email;
@@ -145,8 +160,6 @@ class M_login extends Model
         //memanggil library email dan set konfigurasi untuk pengiriman email
         $this->email->initialize($config);
 
-        //$datatemplate['namaperusahaan'] = $namaperusahaan;
-        //$templateemail = $this->load->view('isiemailverifikasi', $datatemplate);
 
         //konfigurasi pengiriman
         $this->email->setFrom($from_email, $from_nama);
@@ -189,14 +202,14 @@ class M_login extends Model
         			</div>			
         	  		';
 
-        $from_email = 'api';
+        $from_email = 'noreplay@kmpsmart.co.id';
         $from_nama = 'KMPSMART';
-        $passwordemail = 'e762785b5fd867932533f5825fe76f6c';
+        $passwordemail = '#Bismillah18';
         $config = array();
         $config['protocol'] = "smtp";
         $config['mailType'] = "html";
-        $config['SMTPHost'] = "live.smtp.mailtrap.io";
-        $config['SMTPPort'] = "587";
+        $config['SMTPHost'] = "smtp.hostinger.com";
+        $config['SMTPPort'] = "465";
         $config['SMTPTimeout'] = "5";
         $config['SMTPUser'] = $from_email;
         $config['SMTPPass'] = $passwordemail;
@@ -207,9 +220,6 @@ class M_login extends Model
 
         //memanggil library email dan set konfigurasi untuk pengiriman email
         $this->email->initialize($config);
-
-        //$datatemplate['namaperusahaan'] = $namaperusahaan;
-        //$templateemail = $this->load->view('isiemailverifikasi', $datatemplate);
 
         //konfigurasi pengiriman
         $this->email->setFrom($from_email, $from_nama);
