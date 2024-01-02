@@ -11,11 +11,15 @@ class Petani extends BaseController
 
     public function props($idkeltani = null)
     {
-        $data = array(
-            'idkeltani' => $idkeltani,
-        );
-        $this->session->set($data);
-        return redirect()->to('petani');
+        if ($idkeltani != null) {
+            $data = array(
+                'idkeltani' => $idkeltani,
+            );
+            $this->session->set($data);
+            return redirect()->to('petani');
+        }
+
+        return redirect()->to('kelompok-tani');
     }
     public function index(): string
     {

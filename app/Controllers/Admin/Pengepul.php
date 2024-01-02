@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
+use App\Libraries\Googlemaps;
 
 class Pengepul extends BaseController
 {
@@ -52,6 +53,38 @@ class Pengepul extends BaseController
         $id = decode($encode);
         $data['pengepul'] = $this->m_pengepul->get_by_id($id)->getRow();
         $data['provinsi'] = $this->m_pengepul->get_provinsi()->getResult();
+
+
+        //untuk maps
+        $data['petani'] = $this->m_pengepul->get_keltani($id);
+        $petani = $data['petani']->getRow();
+        $googlemaps = new  Googlemaps();
+        if ($petani != null) {
+            $config['center'] = "$petani->latitude, $petani->longitude";
+            $config['zoom'] = 15;
+            $googlemaps->initialize($config);
+            // -4.367409887099134, 104.35817017311595
+            foreach ($data['petani']->getResult() as $rows) {
+                $marker = array();
+                $marker['position'] = "$rows->latitude, $rows->longitude";
+                $marker['animation'] = "DROP";
+                $marker['icon'] = base_url('assets/icon/icon.png');
+                $marker['icon_scaledSize'] = '52,52';
+                $marker['infowindow_content'] = '<div class="media" style="width:250px;">';
+                $marker['infowindow_content'] .= '<div class="media-body">';
+                $marker['infowindow_content'] .= '<h5>Nama Pemilik Lahan : ' . $rows->nama . '</h5>';
+                $marker['infowindow_content'] .= '<p>No Telpon :' . $rows->nohp . '</p>';
+                $marker['infowindow_content'] .= '<p>Luas Tanah : ' . $rows->luas . '</p>';
+                $marker['infowindow_content'] .= '</div>';
+                $marker['infowindow_content'] .= '</div>';
+                $googlemaps->add_marker($marker);
+            }
+            $data['map'] = $googlemaps->create_map();
+        } else {
+            $data['map'] = array('html' => null);
+        }
+
+        //end maps
         return view('admin/pengepul/edit', $data);
     }
     public function simpan()

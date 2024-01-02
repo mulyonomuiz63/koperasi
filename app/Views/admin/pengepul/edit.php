@@ -136,6 +136,9 @@
                     <div class="clearfix"></div>
                     <?= $this->include('tools/tombol'); ?>
                 </form>
+                <br>
+                <br>
+                <?= $map['html']; ?>
 
             </div>
         </div>

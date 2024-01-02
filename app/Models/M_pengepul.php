@@ -102,6 +102,16 @@ class M_pengepul extends Model
         return $this->builder->get();
     }
 
+    public function get_keltani($id)
+    {
+        $this->builder = $this->db->table('tani a');
+        $this->builder->select('a.*');
+        $this->builder->join('kel_tani b', 'a.idkeltani=b.idkeltani');
+
+        $this->builder->where('b.idpengepul', $id);
+        return $this->builder->get();
+    }
+
     public function updateWhere($data, $pengepul)
     {
 
