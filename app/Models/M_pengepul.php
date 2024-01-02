@@ -106,7 +106,7 @@ class M_pengepul extends Model
     {
         $this->builder = $this->db->table('tani a');
         $this->builder->select('a.*');
-        $this->builder->join('kel_tani b', 'a.idkeltani=b.idkeltani');
+        $this->builder->join('kel_tani b', 'a.idkeltani=b.idkeltani', 'left');
 
         $this->builder->where('b.idpengepul', $id);
         return $this->builder->get();
