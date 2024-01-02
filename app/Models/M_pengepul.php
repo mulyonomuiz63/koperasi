@@ -95,8 +95,10 @@ class M_pengepul extends Model
         $this->builder->join('kecamatan d', 'c.idkecamatan=d.idkecamatan', 'left');
         $this->builder->join('kota e', 'd.idkota=e.idkota', 'left');
         $this->builder->join('provinsi f', 'e.idprovinsi=f.idprovinsi', 'left');
-        $this->builder->where('a.idpengepul', $id);
-        $this->builder->orWhere('a.iduser', $id);
+        if (session()->get('idrole') == '3') {
+            $this->builder->where('a.idpengepul', $id);
+            $this->builder->orWhere('a.iduser', $id);
+        }
         return $this->builder->get();
     }
 
@@ -110,25 +112,27 @@ class M_pengepul extends Model
         $builder->update($data);
 
         //proses insert data di table user
-        $user = $this->db->table('re_user')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
-        $dataUser = array(
-            'iduser' => $user->iduser,
-            'idrole' => $user->idrole,
-            'nama' => $user->nama,
-            'email' => $user->email,
-            'hp' => $user->hp,
-            'verifikasi_email' => '1',
-            'status' => '1',
-            'password' => $user->password,
-            'privasi' => $user->privasi,
-        );
-        $builder1 = $this->db->table('user');
-        $builder1->insert($dataUser);
+        $user = $this->db->table('users')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
+        if ($user->status != '1') {
+            $dataUser = array(
+                'iduser' => $user->iduser,
+                'idrole' => $user->idrole,
+                'nama' => $user->nama,
+                'email' => $user->email,
+                'hp' => $user->hp,
+                'status' => '1',
+                'password' => $user->password,
+                'privasi' => $user->privasi,
+            );
+            $builder1 = $this->db->table('user');
+            $builder1->insert($dataUser);
 
-        //delete data di table re_user
-        $builder2 = $this->db->table('re_user');
-        $builder2->where('iduser', $user->iduser);
-        $builder2->delete();
+            //delete data di table re_user
+
+            $builder2 = $this->db->table('re_user');
+            $builder2->where('iduser', $user->iduser);
+            $builder2->delete();
+        }
 
         $result = $this->db->table('users')->getWhere(array('iduser' => session()->get('iduser')))->getRow();
 

@@ -26,7 +26,9 @@ class M_petani extends Model
         $this->builder->select('a.*, b.nama as nama_kelompok, c.komoditi');
         $this->builder->join('kel_tani b', 'a.idkeltani=b.idkeltani');
         $this->builder->join('komoditi c', 'a.idkomoditi=c.idkomoditi');
-        $this->builder->where('b.idkeltani', session()->get('idkeltani'));
+        if (session()->get('idrole') == '3') {
+            $this->builder->where('b.idkeltani', session()->get('idkeltani'));
+        }
         $this->builder->where('a.deleted_at', null);
         $i = 0;
 

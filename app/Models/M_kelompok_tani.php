@@ -24,8 +24,10 @@ class M_kelompok_tani extends Model
     {
 
         $builder = $this->db->table('pengepul');
-        $builder->where('iduser', session()->get('iduser'));
-        $builder->where('deleted_at', null);
+        if (session()->get('idrole') == '3') {
+            $builder->where('iduser', session()->get('iduser'));
+            $builder->where('deleted_at', null);
+        }
         $data  = $builder->get()->getRow();
 
 
