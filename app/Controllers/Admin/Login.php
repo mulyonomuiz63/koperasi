@@ -63,7 +63,7 @@ class Login extends BaseController
                         return redirect()->to('login');
                     }
                 } else {
-                    $pesan = '<div class="alert alert-danger">Akun belum terdaftar </div>';
+                    $pesan = '<div class="alert alert-danger">Akun belum terdaftar atau salah memasukan email atau password </div>';
                     $this->session->setFlashdata('pesan', $pesan);
                     return redirect()->to('login');
                 }
