@@ -9,11 +9,11 @@ class Email extends BaseConfig
     /**
      * @var string
      */
-    public $fromEmail;
+    public $fromEmail = 'noreplay@kmpsmart.co.id';
     /**
      * @var string
      */
-    public $fromName;
+    public $fromName = 'KMPSMART';
     /**
      * @var string
      */
@@ -41,14 +41,14 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPHost = 'smtp.kmpsmart.co.id';
+    public $SMTPHost = 'smtp.hostinger.com';
     /**
      * SMTP Username
      *
      * @var string
      */
     // Enter your email id from where you send email
-    public $SMTPUser = 'no-replay@kmpsmart.co.id';
+    public $SMTPUser = 'noreplay@kmpsmart.co.id';
 
     /**
      * SMTP Password
@@ -56,7 +56,7 @@ class Email extends BaseConfig
      * @var string
      */
     // Enter your email's password
-    public $SMTPPass = '#Noreplay';
+    public $SMTPPass = '#Bismillah18';
     /**
      * SMTP Port
      *

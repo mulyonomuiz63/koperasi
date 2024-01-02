@@ -24,12 +24,13 @@ class M_login extends Model
     {
 
         $this->db->transBegin();
+        //untuk kirim email
         $builder = $this->db->table('re_user');
         $builder->insert($data);
-
+        $iduser = $this->db->insertID();
 
         $dataPengepul = array(
-            'iduser' =>  $this->db->insertID(),
+            'iduser' => $iduser,
             'nama' => $nama,
             'tgl_lahir' => date("Y-d-m"),
             'foto' => 'defaul.jpg',
@@ -38,9 +39,7 @@ class M_login extends Model
         $builder2 = $this->db->table('pengepul');
         $builder2->insert($dataPengepul);
 
-        //untuk kirim email
-        $this->kirimemail(encode($this->db->insertID()), $nama, $email);
-
+        $this->kirimemail(encode($iduser), $nama, $email);
 
         if ($this->db->transStatus() === FALSE) {
             $this->db->transRollback();
@@ -71,28 +70,7 @@ class M_login extends Model
 					</div>			
 			  		';
 
-
-
-        $from_email = 'noreplay@kmpsmart.co.id';
-        $passwordemail = '#Bismillah18';
-        $config = array();
-        $config['protocol'] = "smtp";
-        $config['mailType'] = "html";
-        $config['SMTPHost'] = "smtp.hostinger.com";
-        $config['SMTPPort'] = "465";
-        $config['SMTPTimeout'] = "5";
-        $config['SMTPUser'] = $from_email;
-        $config['SMTPPass'] = $passwordemail;
-        $config['SMTPCrypto'] = 'ssl';
-        $config['CRLF'] = "\r\n";
-        $config['newline'] = "\r\n";
-        $config['wordWrap'] = TRUE;
-
-        //memanggil library email dan set konfigurasi untuk pengiriman email
-        $this->email->initialize($config);
-
         //konfigurasi pengiriman
-        $conEmail->setFrom('noreplay@kmpsmart.co.id', 'KMPSMART');
         $conEmail->setTo($email);
         $conEmail->setSubject("Verifikasi Email");
         $conEmail->setMessage($textemail);
@@ -170,7 +148,7 @@ class M_login extends Model
         return $this->email->send();
     }
 
-    public function simpanresetpassword($data, $email, $password_reset)
+    public function simpanresetpassword($data, $email)
     {
         $this->db->transBegin();
         $user = $this->db->table('users')->getWhere(array('email' => $email))->getRow();
@@ -185,49 +163,7 @@ class M_login extends Model
             $builder->update($data);
         }
 
-        $textemail = '				
-        			<span>Anda baru saja mereset password? <br>
-        			Silahkan login dengan password baru anda: </span><br><br>
 
-        			<div style="width: 100%;">
-        				<div style="background-color: #24ca4b; width: 300px; height: 50px; font-size: 35px; text-align:center; color: white">' . $password_reset . '</div>			
-        			</div><br><br>
-
-        			<div style="width: 100%; font-size: 14px;">
-        				<b>Best Regards,</b> 
-        				<div style="width: 100%; font-size: 14px;"> 
-        				TEAM KMPSMART.CO.ID
-        				<br>JL. PURNAWIRAWAN GG SWADAYA 9 GUNUNGTERANG, LANGKAPURA KOTA BANDAR LAMPUNG LAMPUNG</div>
-        				</div>
-        			</div>			
-        	  		';
-
-        $from_email = 'noreplay@kmpsmart.co.id';
-        $from_nama = 'KMPSMART';
-        $passwordemail = '#Bismillah18';
-        $config = array();
-        $config['protocol'] = "smtp";
-        $config['mailType'] = "html";
-        $config['SMTPHost'] = "smtp.hostinger.com";
-        $config['SMTPPort'] = "465";
-        $config['SMTPTimeout'] = "5";
-        $config['SMTPUser'] = $from_email;
-        $config['SMTPPass'] = $passwordemail;
-        $config['SMTPCrypto'] = 'ssl';
-        $config['CRLF'] = "\r\n";
-        $config['newline'] = "\r\n";
-        $config['wordWrap'] = TRUE;
-
-        //memanggil library email dan set konfigurasi untuk pengiriman email
-        $this->email->initialize($config);
-
-        //konfigurasi pengiriman
-        $this->email->setFrom($from_email, $from_nama);
-        $this->email->setTo($email);
-        $this->email->setSubject("Reset sandi user");
-        $this->email->setMessage($textemail);
-
-        $this->email->send();
 
         if ($this->db->transStatus() === FALSE) {
             $this->db->transRollback();

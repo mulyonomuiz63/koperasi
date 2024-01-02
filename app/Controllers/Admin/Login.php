@@ -57,7 +57,7 @@ class Login extends BaseController
                         return redirect()->to('pengepul/edit/' . encode(session()->get('iduser')));
                     }
                 } else {
-                    $pesan = '<div class="alert alert-danger">email atau password anda salah </div>';
+                    $pesan = '<div class="alert alert-danger">Lakukan verifikasi email anda! </div>';
                     $this->session->setFlashdata('pesan', $pesan);
                     return redirect()->to('login');
                 }
@@ -111,7 +111,7 @@ class Login extends BaseController
                 'nama' => $nama,
                 'email' => $email,
                 'hp' => $hp,
-                'verifikasi_email' => '1',
+                'verifikasi_email' => '0',
                 'password' => $password,
                 'privasi' => $privasi,
             );
@@ -149,7 +149,7 @@ class Login extends BaseController
 
         $cekverif = $this->db->query("select count(*) as jlh from users where iduser='" . $iduser . "' and verifikasi_email='1'")->getRow()->jlh;
         if ($cekverif > 0) {
-            $pesan = '<div class="alert alert-danger">Email sudah di aktivasi.</div>';
+            $pesan = '<div class="alert alert-success">Email sudah di aktivasi.</div>';
             $this->session->setFlashdata('pesan', $pesan);
             return redirect()->to('login');
             exit();
@@ -182,13 +182,44 @@ class Login extends BaseController
         );
         $user = $this->db->table('users')->getWhere(array('email' => $email))->getRow();
         if (isset($user)) {
-            $simpan = $this->m_login->simpanresetpassword($data, $email, $password_new);
-            if ($simpan) {
-                $pesan = '<div class="alert alert-success">Reset sandi berhasil dikirim ke email <br>Atau Cek folder <b>SPAM</b>
+
+            $textemail = '				
+        			<span>Anda baru saja mereset password? <br>
+        			Silahkan login dengan password baru anda: </span><br><br>
+
+        			<div style="width: 100%;">
+        				<div style="background-color: #24ca4b; width: 300px; height: 50px; font-size: 35px; text-align:center; color: white">' . $password_new . '</div>			
+        			</div><br><br>
+
+        			<div style="width: 100%; font-size: 14px;">
+        				<b>Best Regards,</b> 
+        				<div style="width: 100%; font-size: 14px;"> 
+        				TEAM KMPSMART.CO.ID
+        				<br>JL. PURNAWIRAWAN GG SWADAYA 9 GUNUNGTERANG, LANGKAPURA KOTA BANDAR LAMPUNG LAMPUNG</div>
+        				</div>
+        			</div>			
+        	  		';
+
+            $this->email->setTo($email);
+            $this->email->setSubject("Reset sandi user");
+            $this->email->setMessage($textemail);
+
+
+            if ($this->email->send()) {
+                $simpan = $this->m_login->simpanresetpassword($data, $email, $password_new);
+                if ($simpan) {
+                    $pesan = '<div class="alert alert-success">Reset sandi berhasil dikirim ke email <br>Atau Cek folder <b>SPAM</b>
                    			</div>';
-                $this->session->setFlashdata('pesan', $pesan);
-                return redirect()->to('login');
-                exit();
+                    $this->session->setFlashdata('pesan', $pesan);
+                    return redirect()->to('login');
+                    exit();
+                } else {
+                    $pesan = '<div class="alert alert-danger">Reset sandi gagalcoba lagi
+                   			</div>';
+                    $this->session->setFlashdata('pesan', $pesan);
+                    return redirect()->to('lupapassword');
+                    exit();
+                }
             } else {
                 $pesan = '<div class="alert alert-danger">Reset sandi gagalcoba lagi
                    			</div>';
