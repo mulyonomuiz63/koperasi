@@ -4,10 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="og:title" content="Koperasi multi pihak surya makmur agro teknologi" />
     <meta property="og:url" content="<?= base_url('/'); ?>" />
     <meta property="og:description" content="Koperasi multi pihak surya makmur agro teknologi membangun sebuah kepercayaan terhadap masyarakat tentu bukanlah hal yang mudah, apalagi bagi sebuah perusahaan Koperasi yang lahir dan tumbuh di daerah, berawal dari sebuah cita-cita membangun ekonomi dari Daerah" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="author" content="KOPERASI MULTI PIHAK SURYA MAKMUR AGRO TEKNOLOGI">
 
     <title>Koperasi multi pihak surya makmur agro teknologi</title>
